@@ -1,0 +1,40 @@
+{
+  "name": "multivendor-ecommerce-backend",
+  "version": "1.0.0",
+  "description": "Multi-Vendor E-Commerce Marketplace Backend with Node.js, Express, MongoDB, Elasticsearch, Redis, S3, and Razorpay/Stripe Split Payments",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "seed": "node src/scripts/seed.js",
+    "test": "node --test tests/*.test.js"
+  },
+  "keywords": [
+    "ecommerce",
+    "multivendor",
+    "marketplace",
+    "split-payments",
+    "elasticsearch",
+    "redis"
+  ],
+  "author": "FS-01 Full-Stack Development Team",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.758.0",
+    "@elastic/elasticsearch": "^8.17.0",
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "ioredis": "^5.5.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb-memory-server": "^10.1.4",
+    "mongoose": "^8.12.0",
+    "multer": "^1.4.5-lts.1",
+    "pdfkit": "^0.16.0",
+    "razorpay": "^2.9.5",
+    "stripe": "^17.7.0"
+  }
+}
