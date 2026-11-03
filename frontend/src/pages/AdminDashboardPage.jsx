@@ -15,6 +15,7 @@ import {
   ShoppingBag
 } from 'lucide-react';
 import api from '../services/api';
+import { toast } from 'react-toastify';
 
 const AdminDashboardPage = () => {
   const [analytics, setAnalytics] = useState(null);
@@ -48,10 +49,11 @@ const AdminDashboardPage = () => {
       const res = await api.post('/seed/run');
       if (res.data.success) {
         setSeedSuccess('Demo catalog and users seeded successfully!');
+        toast.success('Marketplace catalog and users seeded successfully!');
         await fetchAnalytics();
       }
     } catch (err) {
-      alert('Failed to seed: ' + err.message);
+      toast.error('Failed to seed: ' + err.message);
     } finally {
       setSeeding(false);
       setTimeout(() => setSeedSuccess(''), 3000);

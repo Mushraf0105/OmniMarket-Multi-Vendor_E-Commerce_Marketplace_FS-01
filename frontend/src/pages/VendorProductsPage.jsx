@@ -13,6 +13,7 @@ import {
   Layers
 } from 'lucide-react';
 import api from '../services/api';
+import { toast } from 'react-toastify';
 import { useAuth } from '../context/AuthContext';
 
 const VendorProductsPage = () => {
@@ -120,9 +121,11 @@ const VendorProductsPage = () => {
           images: [res.data.imageUrl, ...prev.images.filter(Boolean)]
         }));
         setAlertMsg({ type: 'success', text: 'Image uploaded to S3 / storage successfully!' });
+        toast.success('Product image uploaded successfully!');
       }
     } catch (err) {
       setAlertMsg({ type: 'error', text: 'Image upload failed' });
+      toast.error('Image upload failed');
     } finally {
       setUploadingImage(false);
     }
@@ -146,16 +149,22 @@ const VendorProductsPage = () => {
 
       if (editingProduct) {
         await api.put(`/products/${editingProduct._id}`, payload);
-        setAlertMsg({ type: 'success', text: 'Product updated and re-indexed into Elasticsearch!' });
+        const msg = 'Product updated and re-indexed into Elasticsearch!';
+        setAlertMsg({ type: 'success', text: msg });
+        toast.success(msg);
       } else {
         await api.post('/products', payload);
-        setAlertMsg({ type: 'success', text: 'Product created and indexed into Elasticsearch!' });
+        const msg = 'Product created and indexed into Elasticsearch!';
+        setAlertMsg({ type: 'success', text: msg });
+        toast.success(msg);
       }
 
       setModalOpen(false);
       await fetchVendorProducts();
     } catch (err) {
-      setAlertMsg({ type: 'error', text: err.response?.data?.message || 'Failed to save product' });
+      const msg = err.response?.data?.message || 'Failed to save product';
+      setAlertMsg({ type: 'error', text: msg });
+      toast.error(msg);
     } finally {
       setSaving(false);
       setTimeout(() => setAlertMsg({ type: '', text: '' }), 3000);
@@ -167,9 +176,11 @@ const VendorProductsPage = () => {
     try {
       await api.delete(`/products/${id}`);
       setAlertMsg({ type: 'success', text: 'Product deleted from database and search index.' });
+      toast.success('Product deleted from database & Elasticsearch.');
       await fetchVendorProducts();
     } catch (err) {
       setAlertMsg({ type: 'error', text: 'Failed to delete product' });
+      toast.error('Failed to delete product');
     }
   };
 

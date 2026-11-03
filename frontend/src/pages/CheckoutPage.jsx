@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import {
   CreditCard,
   ShieldCheck,
@@ -85,11 +86,14 @@ const CheckoutPage = () => {
       const res = await api.post('/orders', orderPayload);
 
       if (res.data.success) {
+        toast.success(`Order #${res.data.order?.orderNumber || ''} placed successfully!`);
         await clearCart();
         navigate(`/order-success/${res.data.order._id}`);
       }
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to place order. Please try again.');
+      const msg = err.response?.data?.message || 'Failed to place order. Please try again.';
+      setError(msg);
+      toast.error(msg);
     } finally {
       setLoading(false);
     }

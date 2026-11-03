@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Package, Download, ArrowRight, Eye, Calendar, DollarSign } from 'lucide-react';
+import { toast } from 'react-toastify';
 import api, { downloadOrderInvoicePDF } from '../services/api';
 
 const OrderHistoryPage = () => {
@@ -12,9 +13,10 @@ const OrderHistoryPage = () => {
     try {
       setDownloadingId(orderId);
       await downloadOrderInvoicePDF(orderId, orderNumber);
+      toast.success('Invoice downloaded successfully!');
     } catch (err) {
       console.error('Invoice download failed:', err);
-      alert('Could not download invoice. Please try again.');
+      toast.error('Could not download invoice. Please try again.');
     } finally {
       setDownloadingId(null);
     }

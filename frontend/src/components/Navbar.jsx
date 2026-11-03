@@ -17,6 +17,7 @@ import {
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import api from '../services/api';
+import { toast } from 'react-toastify';
 
 const Navbar = () => {
   const { user, logout, isCustomer, isVendor, isAdmin } = useAuth();
@@ -205,6 +206,7 @@ const Navbar = () => {
                       onClick={() => {
                         setUserDropdownOpen(false);
                         logout();
+                        toast.info('Signed out successfully');
                         navigate('/');
                       }}
                       className="w-full flex items-center px-4 py-2 hover:bg-rose-50 text-rose-600 text-left"

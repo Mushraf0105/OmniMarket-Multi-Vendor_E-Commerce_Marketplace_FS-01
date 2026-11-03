@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { LogIn, AlertCircle, Shield, Store, ShoppingBag } from 'lucide-react';
+import { toast } from 'react-toastify';
 import { useAuth } from '../context/AuthContext';
 
 const LoginPage = () => {
@@ -21,10 +22,13 @@ const LoginPage = () => {
     try {
       setLoading(true);
       setError('');
-      await login(email, password);
+      const data = await login(email, password);
+      toast.success(`Welcome back, ${data?.user?.name || 'User'}!`);
       navigate(redirect);
     } catch (err) {
-      setError(err.response?.data?.message || 'Invalid email or password');
+      const msg = err.response?.data?.message || 'Invalid email or password';
+      setError(msg);
+      toast.error(msg);
     } finally {
       setLoading(false);
     }
@@ -34,12 +38,15 @@ const LoginPage = () => {
     try {
       setLoading(true);
       setError('');
-      await login(demoEmail, 'Password@123');
+      const data = await login(demoEmail, 'Password@123');
+      toast.success(`Logged in as Demo ${demoRole.toUpperCase()}!`);
       if (demoRole === 'admin') navigate('/admin/dashboard');
       else if (demoRole === 'vendor') navigate('/vendor/dashboard');
       else navigate(redirect);
     } catch (err) {
-      setError(err.response?.data?.message || 'Demo login failed');
+      const msg = err.response?.data?.message || 'Demo login failed';
+      setError(msg);
+      toast.error(msg);
     } finally {
       setLoading(false);
     }

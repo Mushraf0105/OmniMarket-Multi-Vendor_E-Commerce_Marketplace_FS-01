@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserPlus, AlertCircle, ShoppingBag, Store } from 'lucide-react';
+import { toast } from 'react-toastify';
 import { useAuth } from '../context/AuthContext';
 
 const RegisterPage = () => {
@@ -34,13 +35,17 @@ const RegisterPage = () => {
         storeDescription: role === 'vendor' ? storeDescription : undefined
       });
 
+      toast.success(`Welcome to OmniMarket, ${name}! Your ${role} account is ready.`);
+
       if (role === 'vendor') {
         navigate('/vendor/dashboard');
       } else {
         navigate('/');
       }
     } catch (err) {
-      setError(err.response?.data?.message || 'Registration failed');
+      const msg = err.response?.data?.message || 'Registration failed';
+      setError(msg);
+      toast.error(msg);
     } finally {
       setLoading(false);
     }

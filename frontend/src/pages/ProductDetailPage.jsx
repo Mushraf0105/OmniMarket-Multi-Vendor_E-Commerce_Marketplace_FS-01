@@ -14,6 +14,7 @@ import {
 import api from '../services/api';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
+import { toast } from 'react-toastify';
 import RatingStars from '../components/RatingStars';
 import ProductCard from '../components/ProductCard';
 
@@ -110,12 +111,15 @@ const ProductDetailPage = () => {
 
       if (res.data.success) {
         setReviewSuccess('Thank you! Your verified review has been submitted.');
+        toast.success('Review submitted successfully!');
         setReviewTitle('');
         setReviewComment('');
         fetchReviews(product._id);
       }
     } catch (err) {
-      setReviewError(err.response?.data?.message || 'Failed to submit review');
+      const msg = err.response?.data?.message || 'Failed to submit review';
+      setReviewError(msg);
+      toast.error(msg);
     } finally {
       setSubmittingReview(false);
     }

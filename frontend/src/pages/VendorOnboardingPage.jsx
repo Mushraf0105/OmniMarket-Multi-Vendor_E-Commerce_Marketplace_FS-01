@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Store, Building, CreditCard, CheckCircle2, ArrowRight } from 'lucide-react';
+import { toast } from 'react-toastify';
 import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
 
@@ -39,9 +40,12 @@ const VendorOnboardingPage = () => {
 
       if (res.data.success) {
         setMessage('Vendor onboarding saved! Redirecting to merchant portal...');
+        toast.success('Vendor profile saved successfully!');
         setTimeout(() => navigate('/vendor/dashboard'), 1500);
       }
     } catch (err) {
+      const msg = err.response?.data?.message || 'Failed to save vendor profile';
+      toast.error(msg);
       console.error(err);
     } finally {
       setLoading(false);

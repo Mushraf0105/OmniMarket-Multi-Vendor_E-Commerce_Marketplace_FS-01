@@ -10,6 +10,7 @@ import {
   Download
 } from 'lucide-react';
 import api, { downloadOrderInvoicePDF } from '../services/api';
+import { toast } from 'react-toastify';
 import LifecycleTracker from '../components/LifecycleTracker';
 
 const OrderSuccessPage = () => {
@@ -40,9 +41,10 @@ const OrderSuccessPage = () => {
     try {
       setDownloading(true);
       await downloadOrderInvoicePDF(id, order?.orderNumber);
+      toast.success('Invoice downloaded successfully!');
     } catch (err) {
       console.error('Invoice download failed:', err);
-      alert('Could not download invoice. Please try again.');
+      toast.error('Could not download invoice. Please try again.');
     } finally {
       setDownloading(false);
     }

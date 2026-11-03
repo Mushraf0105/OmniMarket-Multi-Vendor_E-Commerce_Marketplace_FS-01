@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 import api from '../services/api';
 import { useAuth } from './AuthContext';
 
@@ -52,10 +53,13 @@ export const CartProvider = ({ children }) => {
       if (res.data.success) {
         setCart(res.data.cart);
         if (appliedCoupon) recalcDiscount(appliedCoupon, res.data.cart.subtotal);
+        toast.success('Item added to cart!');
         return { success: true };
       }
     } catch (err) {
-      return { success: false, message: err.response?.data?.message || 'Failed to add item' };
+      const msg = err.response?.data?.message || 'Failed to add item';
+      toast.error(msg);
+      return { success: false, message: msg };
     }
   };
 
@@ -68,7 +72,9 @@ export const CartProvider = ({ children }) => {
         return { success: true };
       }
     } catch (err) {
-      return { success: false, message: err.response?.data?.message || 'Failed to update' };
+      const msg = err.response?.data?.message || 'Failed to update';
+      toast.error(msg);
+      return { success: false, message: msg };
     }
   };
 
@@ -78,10 +84,13 @@ export const CartProvider = ({ children }) => {
       if (res.data.success) {
         setCart(res.data.cart);
         if (appliedCoupon) recalcDiscount(appliedCoupon, res.data.cart.subtotal);
+        toast.info('Item removed from cart');
         return { success: true };
       }
     } catch (err) {
-      return { success: false, message: err.response?.data?.message || 'Failed to remove' };
+      const msg = err.response?.data?.message || 'Failed to remove';
+      toast.error(msg);
+      return { success: false, message: msg };
     }
   };
 
@@ -105,12 +114,15 @@ export const CartProvider = ({ children }) => {
       if (res.data.success) {
         setAppliedCoupon(res.data.coupon);
         setDiscountAmount(res.data.coupon.discountAmount);
+        toast.success(`Coupon '${res.data.coupon.code}' applied!`);
         return { success: true, coupon: res.data.coupon };
       }
     } catch (err) {
+      const msg = err.response?.data?.message || 'Invalid or expired coupon';
+      toast.error(msg);
       return {
         success: false,
-        message: err.response?.data?.message || 'Invalid or expired coupon'
+        message: msg
       };
     }
   };
@@ -118,6 +130,7 @@ export const CartProvider = ({ children }) => {
   const removeCoupon = () => {
     setAppliedCoupon(null);
     setDiscountAmount(0);
+    toast.info('Coupon removed');
   };
 
   return (

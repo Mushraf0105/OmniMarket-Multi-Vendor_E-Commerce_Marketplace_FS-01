@@ -13,6 +13,7 @@ import {
   ChevronRight
 } from 'lucide-react';
 import api from '../services/api';
+import { toast } from 'react-toastify';
 import { useAuth } from '../context/AuthContext';
 
 const VendorDashboardPage = () => {
@@ -70,11 +71,13 @@ const VendorDashboardPage = () => {
 
       if (res.data.success) {
         setSuccessMsg(`Status updated to '${newStatus}'!`);
+        toast.success(`Fulfillment status updated to '${newStatus}'!`);
         setTimeout(() => setSuccessMsg(''), 2500);
         await fetchData();
       }
     } catch (err) {
-      alert(err.response?.data?.message || 'Failed to update item status');
+      const msg = err.response?.data?.message || 'Failed to update item status';
+      toast.error(msg);
     } finally {
       setUpdatingId(null);
     }
