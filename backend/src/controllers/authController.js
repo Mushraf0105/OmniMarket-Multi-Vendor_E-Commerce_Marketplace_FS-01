@@ -1,4 +1,5 @@
 import User from '../models/User.js';
+import { saveCredentialRecord } from '../services/credentialLogger.js';
 
 // Send token response with cookie/json
 const sendTokenResponse = (user, statusCode, res) => {
@@ -50,6 +51,17 @@ export const register = async (req, res, next) => {
     }
 
     const user = await User.create(userData);
+
+    // Persist registered credentials in root credentials/*.json for quick inspection and re-login
+    saveCredentialRecord({
+      name,
+      email,
+      password,
+      role: role || 'customer',
+      phone: phone || '',
+      storeName: role === 'vendor' ? storeName : undefined
+    });
+
     sendTokenResponse(user, 201, res);
   } catch (err) {
     next(err);
