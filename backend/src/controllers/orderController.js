@@ -114,7 +114,7 @@ export const createOrder = async (req, res, next) => {
     });
 
     const tax = Math.round((subtotal - discount) * 0.08 * 100) / 100; // 8% sales tax
-    const shippingFee = subtotal > 100 ? 0 : 10; // Free shipping over $100
+    const shippingFee = subtotal > 100 ? 0 : 10; // Free shipping over ₹100
     const totalAmount = Math.round((subtotal - discount + tax + shippingFee) * 100) / 100;
 
     const orderNumber = `ORD-${new Date().toISOString().slice(0, 10).replace(/-/g, '')}-${Math.floor(1000 + Math.random() * 9000)}`;
@@ -298,3 +298,4 @@ export const downloadOrderInvoice = async (req, res, next) => {
     next(err);
   }
 };
+

@@ -213,3 +213,4 @@ const VendorOnboardingPage = () => {
 };
 
 export default VendorOnboardingPage;
+

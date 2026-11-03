@@ -90,7 +90,7 @@ const OrderHistoryPage = () => {
 
                   <div>
                     <span className="text-slate-400 block text-[10px] uppercase font-bold">TOTAL AMOUNT</span>
-                    <span className="font-bold text-slate-900">${order.totalAmount?.toFixed(2)}</span>
+                    <span className="font-bold text-slate-900">₹{order.totalAmount?.toFixed(2)}</span>
                   </div>
 
                   <div>
@@ -173,3 +173,4 @@ const OrderHistoryPage = () => {
 };
 
 export default OrderHistoryPage;
+

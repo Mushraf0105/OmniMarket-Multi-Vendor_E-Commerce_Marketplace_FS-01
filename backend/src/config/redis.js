@@ -115,3 +115,4 @@ const initRedis = () => {
 initRedis();
 
 export default redisClient;
+

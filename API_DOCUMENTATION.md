@@ -227,3 +227,4 @@ Retrieve vendor-specific gross sales, 90% net earnings, 10% commission paid, and
 
 ### POST `/coupons/validate`
 Validate promo coupon code against cart total and return discount.
+

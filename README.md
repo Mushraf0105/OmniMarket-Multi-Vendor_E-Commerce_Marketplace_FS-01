@@ -101,13 +101,13 @@ When a customer checks out an order containing items from multiple vendors:
 4. The remaining **90% net earnings** are scheduled for automated settlement to the vendor's bank account via Razorpay Route or Stripe Connect transfer.
 
 ### Example:
-- **Item 1:** Headphones ($200) from *Apex Electronics*
-- **Item 2:** Wool Sweater ($100) from *Urban Chic Apparel*
-- **Order Subtotal:** $300
-- **Coupon Discount (`WELCOME10`):** -$30 ($20 from Apex, $10 from Urban)
-- **Net Gross:** Apex = $180, Urban = $90
-- **Platform Commission (10%):** Apex = $18, Urban = $9 ➔ **$27 total platform revenue**
-- **Vendor Payouts (90%):** Apex = **$162**, Urban = **$81**
+- **Item 1:** Headphones (₹200) from *Apex Electronics*
+- **Item 2:** Wool Sweater (₹100) from *Urban Chic Apparel*
+- **Order Subtotal:** ₹300
+- **Coupon Discount (`WELCOME10`):** -₹30 (₹20 from Apex, ₹10 from Urban)
+- **Net Gross:** Apex = ₹180, Urban = ₹90
+- **Platform Commission (10%):** Apex = ₹18, Urban = ₹9 ➔ **₹27 total platform revenue**
+- **Vendor Payouts (90%):** Apex = **₹162**, Urban = **₹81**
 
 ---
 
@@ -155,3 +155,4 @@ See [`TEST_REPORT.md`](./TEST_REPORT.md) for full benchmarks and coverage matrix
 
 ## 📄 License
 ISC License © 2026 OmniMarket Team. Full-Stack Assessment FS-01.
+

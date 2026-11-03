@@ -32,7 +32,7 @@ export const previewSplitBreakdown = async (req, res, next) => {
 // @access  Private
 export const createRazorpayOrder = async (req, res, next) => {
   try {
-    const { amount, currency = 'USD', items, discount = 0 } = req.body;
+    const { amount, currency = 'INR', items, discount = 0 } = req.body;
     const razorpay = getRazorpayInstance();
 
     const breakdown = calculateSplitBreakdown(items || [], 10, discount);
@@ -115,7 +115,7 @@ export const verifyRazorpayPayment = async (req, res, next) => {
 // @access  Private
 export const createStripePaymentIntent = async (req, res, next) => {
   try {
-    const { amount, currency = 'usd', items, discount = 0 } = req.body;
+    const { amount, currency = 'inr', items, discount = 0 } = req.body;
     const stripe = getStripeInstance();
     const breakdown = calculateSplitBreakdown(items || [], 10, discount);
 
@@ -149,3 +149,4 @@ export const createStripePaymentIntent = async (req, res, next) => {
     next(err);
   }
 };
+

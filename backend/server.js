@@ -95,7 +95,7 @@ const startServer = async () => {
       await seedDatabase();
     }
 
-    app.listen(PORT, () => {
+    app.listen(PORT, '0.0.0.0', () => {
       console.log(`=======================================================`);
       console.log(`🚀 OmniMarket Multi-Vendor API Server running on port ${PORT}`);
       console.log(`📡 Health Check: http://localhost:${PORT}/api/health`);
@@ -111,3 +111,4 @@ const startServer = async () => {
 startServer();
 
 export default app;
+

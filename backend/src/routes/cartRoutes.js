@@ -32,3 +32,4 @@ router.delete('/remove/:productId', removeFromCart);
 router.delete('/clear', clearCart);
 
 export default router;
+

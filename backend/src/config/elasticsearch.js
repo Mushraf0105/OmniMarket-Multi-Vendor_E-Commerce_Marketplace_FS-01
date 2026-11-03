@@ -125,3 +125,4 @@ export const deleteProductFromES = async (productId) => {
     // Ignore 404
   }
 };
+

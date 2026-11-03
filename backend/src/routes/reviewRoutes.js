@@ -8,3 +8,4 @@ router.get('/product/:productId', getProductReviews);
 router.post('/', protect, addReview);
 
 export default router;
+

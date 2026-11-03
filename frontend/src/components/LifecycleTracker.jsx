@@ -84,3 +84,4 @@ const LifecycleTracker = ({ currentStatus, statusHistory = [] }) => {
 };
 
 export default LifecycleTracker;
+

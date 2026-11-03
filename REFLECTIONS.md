@@ -41,3 +41,4 @@
 ### Key Learnings & Takeaways:
 - **Multi-Persona State Management:** Managing separate navigation flows and permission gates for customers, vendors, and platform admins required clean encapsulation in React Context (`AuthContext` and `CartContext`).
 - **Design for Trust & Transparency:** In a multi-vendor marketplace, buyers want to know who is shipping their package and sellers want clear visibility into commissions. Designing clear visual cues (vendor badges, fulfillment progress bars, split payout tables) makes the application feel production-grade.
+

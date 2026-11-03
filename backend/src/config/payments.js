@@ -96,3 +96,4 @@ export const calculateSplitBreakdown = (items, defaultCommission = 10, discount 
 
 export const getRazorpayInstance = () => razorpayInstance;
 export const getStripeInstance = () => stripeInstance;
+

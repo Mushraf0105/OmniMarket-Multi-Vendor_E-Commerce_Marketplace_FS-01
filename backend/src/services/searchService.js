@@ -175,3 +175,4 @@ export const searchProducts = async (params) => {
     totalPages: Math.ceil(total / Number(limit))
   };
 };
+

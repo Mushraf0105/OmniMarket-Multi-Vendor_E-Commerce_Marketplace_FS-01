@@ -46,9 +46,9 @@ ok 3 - Marketplace Split with Promotional Coupon Discount Pro-rated Across Vendo
 
 | # | Test Scenario | Expected Outcome | Status |
 |---|---|---|---|
-| **TC-01** | Standard 10% Platform Commission Calculation | For a $200 order, platform retains $20 (10%) and vendor receives $180 (90%) | **PASS** |
-| **TC-02** | Multi-Vendor Split with Heterogeneous Carts | Correctly segregates earnings across Vendor A ($100 gross -> $10 commission, $90 payout) and Vendor B ($200 gross -> $20 commission, $180 payout) | **PASS** |
-| **TC-03** | Pro-Rated Coupon Discount Allocation | Pro-rates $30 discount proportionally across vendor gross contributions without rounding errors or negative balances | **PASS** |
+| **TC-01** | Standard 10% Platform Commission Calculation | For a ₹200 order, platform retains ₹20 (10%) and vendor receives ₹180 (90%) | **PASS** |
+| **TC-02** | Multi-Vendor Split with Heterogeneous Carts | Correctly segregates earnings across Vendor A (₹100 gross -> ₹10 commission, ₹90 payout) and Vendor B (₹200 gross -> ₹20 commission, ₹180 payout) | **PASS** |
+| **TC-03** | Pro-Rated Coupon Discount Allocation | Pro-rates ₹30 discount proportionally across vendor gross contributions without rounding errors or negative balances | **PASS** |
 | **TC-04** | Role-Based Access Control (RBAC) | Restricts `/api/analytics/admin` to `admin` and `/api/vendors/orders` to `vendor` | **PASS** |
 | **TC-05** | Redis Cart TTL Caching | Key expires after 7 days; cart quantities and prices rehydrate consistently | **PASS** |
 | **TC-06** | Elasticsearch Search & Faceting | Multi-match search returns ordered relevance scores with price and rating filters | **PASS** |
@@ -66,3 +66,4 @@ ok 3 - Marketplace Split with Promotional Coupon Discount Pro-rated Across Vendo
 | **Split Pay Calculation** | Sub-5ms calculation | **0.4 ms** avg | Pure functional calculation with $O(N)$ linear complexity over cart items |
 | **PDF Invoice Rendering** | Sub-500ms generation | **68.4 ms** avg | PDFKit buffer streaming generates high-resolution invoices with zero disk bottleneck |
 | **Frontend Production Build** | Sub-15s bundle time | **6.17 s** | Vite and Tailwind tree-shaking yields optimized 389 KB JS chunk |
+

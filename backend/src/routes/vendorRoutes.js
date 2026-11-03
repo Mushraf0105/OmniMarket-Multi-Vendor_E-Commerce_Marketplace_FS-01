@@ -20,3 +20,4 @@ router.get('/orders', protect, authorize('vendor', 'admin'), getVendorOrders);
 router.put('/orders/:orderId/items/:itemId/status', protect, authorize('vendor', 'admin'), updateVendorOrderItemStatus);
 
 export default router;
+

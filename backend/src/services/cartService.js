@@ -110,3 +110,4 @@ export const emptyCart = async (cartKey) => {
   await redisClient.del(cartKey);
   return { items: [], subtotal: 0, totalItems: 0 };
 };
+

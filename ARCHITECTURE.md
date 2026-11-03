@@ -200,3 +200,4 @@ erDiagram
 
 4. **Dynamic PDF Invoicing**:
    - Streaming PDF generation with PDFKit produces formatted tax invoices featuring itemized vendor breakdowns, shipping details, and barcode order numbering.
+

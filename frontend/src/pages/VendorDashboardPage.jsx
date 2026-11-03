@@ -127,7 +127,7 @@ const VendorDashboardPage = () => {
         <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-1">
           <span className="text-[11px] font-bold text-slate-400 uppercase">Gross Sales</span>
           <p className="text-2xl font-black text-slate-900">
-            ${stats?.totalGrossSales?.toFixed(2) || '0.00'}
+            ₹{stats?.totalGrossSales?.toFixed(2) || '0.00'}
           </p>
           <span className="text-[10px] text-slate-500">Total customer orders</span>
         </div>
@@ -135,7 +135,7 @@ const VendorDashboardPage = () => {
         <div className="bg-emerald-50/60 p-5 rounded-2xl border border-emerald-200 shadow-sm space-y-1">
           <span className="text-[11px] font-bold text-emerald-800 uppercase">Net Earnings (90%)</span>
           <p className="text-2xl font-black text-emerald-700">
-            ${stats?.netVendorEarnings?.toFixed(2) || '0.00'}
+            ₹{stats?.netVendorEarnings?.toFixed(2) || '0.00'}
           </p>
           <span className="text-[10px] text-emerald-600 font-semibold">Your settled payout</span>
         </div>
@@ -143,7 +143,7 @@ const VendorDashboardPage = () => {
         <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-1">
           <span className="text-[11px] font-bold text-slate-400 uppercase">Platform Fee (10%)</span>
           <p className="text-2xl font-black text-amber-600">
-            ${stats?.totalPlatformCommission?.toFixed(2) || '0.00'}
+            ₹{stats?.totalPlatformCommission?.toFixed(2) || '0.00'}
           </p>
           <span className="text-[10px] text-slate-500">Marketplace commission</span>
         </div>
@@ -207,7 +207,7 @@ const VendorDashboardPage = () => {
                       Destination: {order.shippingAddress?.city}, {order.shippingAddress?.state}
                     </span>
                     <span className="font-bold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded border border-emerald-200">
-                      Your Payout: ${order.vendorNetShare?.toFixed(2)}
+                      Your Payout: ₹{order.vendorNetShare?.toFixed(2)}
                     </span>
                   </div>
                 </div>
@@ -231,7 +231,7 @@ const VendorDashboardPage = () => {
                           <div className="text-xs">
                             <p className="font-bold text-slate-800">{item.name}</p>
                             <p className="text-slate-500">
-                              Qty: {item.quantity} × ${item.price.toFixed(2)} = ${(item.price * item.quantity).toFixed(2)}
+                              Qty: {item.quantity} × ₹{item.price.toFixed(2)} = ₹{(item.price * item.quantity).toFixed(2)}
                             </p>
                             <div className="flex items-center space-x-2 mt-1">
                               <span className="capitalize font-semibold text-slate-700 bg-slate-100 px-2 py-0.5 rounded text-[10px]">
@@ -300,3 +300,4 @@ const VendorDashboardPage = () => {
 };
 
 export default VendorDashboardPage;
+

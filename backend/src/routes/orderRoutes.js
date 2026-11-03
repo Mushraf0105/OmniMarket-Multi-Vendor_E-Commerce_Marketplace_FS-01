@@ -20,3 +20,4 @@ router.get('/:id/invoice', downloadOrderInvoice);
 router.put('/:id/status', authorize('admin', 'vendor'), updateOrderStatus);
 
 export default router;
+

@@ -60,15 +60,15 @@
 
 ### The Mathematics of Marketplace Checkout
 1. A customer buys from 2 different vendors in 1 transaction:
-   - Vendor A (Apex Tech): $100
-   - Vendor B (Urban Chic): $200
-   - Subtotal: $300
-2. Customer applies a $30 promotional coupon (`FESTIVE20`):
-   - Proportional discount: Vendor A = -$10; Vendor B = -$20.
+   - Vendor A (Apex Tech): ₹100
+   - Vendor B (Urban Chic): ₹200
+   - Subtotal: ₹300
+2. Customer applies a ₹30 promotional coupon (`FESTIVE20`):
+   - Proportional discount: Vendor A = -₹10; Vendor B = -₹20.
 3. Automated Split Settlement:
-   - **Platform Commission (10%):** $9 (from Vendor A) + $18 (from Vendor B) = **$27 retained**.
-   - **Vendor A Payout (90%):** $81 net transfer.
-   - **Vendor B Payout (90%):** $162 net transfer.
+   - **Platform Commission (10%):** ₹9 (from Vendor A) + ₹18 (from Vendor B) = **₹27 retained**.
+   - **Vendor A Payout (90%):** ₹81 net transfer.
+   - **Vendor B Payout (90%):** ₹162 net transfer.
 4. Seamlessly executed through Razorpay Route and Stripe Connect destination charges with automated ledger recording.
 
 ---
@@ -120,7 +120,7 @@
   - Applies promo code `WELCOME10` and checks out with Razorpay Split Pay.
   - Downloads official PDF tax invoice and tracks live progress.
 - **Persona 2: Vendor (Apex Tech Solutions)**
-  - Logs into Vendor Portal, reviews $224.99 net earnings and 10% platform fee.
+  - Logs into Vendor Portal, reviews ₹224.99 net earnings and 10% platform fee.
   - Marks order package as `"Packed"` and enters shipping carrier tracking number.
   - Adds a new wireless gadget with image upload.
 - **Persona 3: Administrator (Platform Admin)**
@@ -130,7 +130,8 @@
 
 ## Slide 10: Future Roadmap & Next Steps
 
-1. **Vendor Self-Service Subscriptions:** Monthly SaaS tiering for lower commission rates (e.g., $49/mo for 5% commission).
+1. **Vendor Self-Service Subscriptions:** Monthly SaaS tiering for lower commission rates (e.g., ₹499/mo for 5% commission).
 2. **AI-Powered Product Recommendations:** Collaborative filtering using user order history and vector embeddings.
 3. **Automated Return & RMA Escrow:** 7-day payout hold until return window lapses.
 4. **Multi-Currency Global Settlements:** Real-time FX conversion for international customers and cross-border vendor payouts.
+

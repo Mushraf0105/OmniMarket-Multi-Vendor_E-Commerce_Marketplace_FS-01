@@ -150,8 +150,8 @@ const HomePage = () => {
             <div className="flex flex-wrap items-center justify-center gap-3">
               {[
                 { code: 'WELCOME10', label: '10% OFF Any Order' },
-                { code: 'MEGA50', label: '$50 OFF Orders > $250' },
-                { code: 'FESTIVE20', label: '20% OFF Orders > $100' }
+                { code: 'MEGA50', label: '₹50 OFF Orders > ₹250' },
+                { code: 'FESTIVE20', label: '20% OFF Orders > ₹100' }
               ].map((c) => (
                 <button
                   key={c.code}
@@ -309,3 +309,4 @@ const HomePage = () => {
 };
 
 export default HomePage;
+

@@ -87,11 +87,11 @@ const ProductCard = ({ product }) => {
           <div>
             <div className="flex items-baseline space-x-1.5">
               <span className="text-lg font-bold text-slate-900">
-                ${product.price.toFixed(2)}
+                ₹{product.price.toFixed(2)}
               </span>
               {product.compareAtPrice > product.price && (
                 <span className="text-xs text-slate-400 line-through">
-                  ${product.compareAtPrice.toFixed(2)}
+                  ₹{product.compareAtPrice.toFixed(2)}
                 </span>
               )}
             </div>
@@ -125,3 +125,4 @@ const ProductCard = ({ product }) => {
 };
 
 export default ProductCard;
+

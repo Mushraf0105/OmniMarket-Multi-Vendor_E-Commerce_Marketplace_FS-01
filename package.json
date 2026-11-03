@@ -1,0 +1,13 @@
+{
+  "name": "omnimarket-workspace",
+  "version": "1.0.0",
+  "description": "Multi-Vendor E-Commerce Marketplace Workspace Root",
+  "private": true,
+  "scripts": {
+    "start:backend": "cd backend && npm start",
+    "start:frontend": "cd frontend && npm run dev",
+    "seed": "cd backend && npm run seed",
+    "test": "cd backend && npm test"
+  }
+}
+

@@ -98,7 +98,7 @@ const AdminDashboardPage = () => {
         <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-1">
           <span className="text-[11px] font-bold text-slate-400 uppercase">Gross Merchandise Value (GMV)</span>
           <p className="text-3xl font-black text-slate-900">
-            ${analytics?.totalGMV?.toFixed(2) || '0.00'}
+            ₹{analytics?.totalGMV?.toFixed(2) || '0.00'}
           </p>
           <span className="text-[10px] text-slate-500 font-medium">Total customer transactional volume</span>
         </div>
@@ -106,7 +106,7 @@ const AdminDashboardPage = () => {
         <div className="bg-amber-500 text-slate-950 p-6 rounded-2xl shadow-sm space-y-1">
           <span className="text-[11px] font-bold text-slate-900/80 uppercase">Platform Commission (10%)</span>
           <p className="text-3xl font-black text-slate-950">
-            ${analytics?.totalPlatformCommission?.toFixed(2) || '0.00'}
+            ₹{analytics?.totalPlatformCommission?.toFixed(2) || '0.00'}
           </p>
           <span className="text-[10px] font-semibold text-slate-900/90">Marketplace retained profit</span>
         </div>
@@ -114,7 +114,7 @@ const AdminDashboardPage = () => {
         <div className="bg-emerald-50 p-6 rounded-2xl border border-emerald-200 shadow-sm space-y-1">
           <span className="text-[11px] font-bold text-emerald-800 uppercase">Vendor Payouts (90%)</span>
           <p className="text-3xl font-black text-emerald-700">
-            ${analytics?.totalVendorPayout?.toFixed(2) || '0.00'}
+            ₹{analytics?.totalVendorPayout?.toFixed(2) || '0.00'}
           </p>
           <span className="text-[10px] text-emerald-600 font-semibold">Settled merchant transfers</span>
         </div>
@@ -122,7 +122,7 @@ const AdminDashboardPage = () => {
         <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-1">
           <span className="text-[11px] font-bold text-slate-400 uppercase">Coupons Redeemed</span>
           <p className="text-3xl font-black text-rose-600">
-            ${analytics?.totalDiscountGiven?.toFixed(2) || '0.00'}
+            ₹{analytics?.totalDiscountGiven?.toFixed(2) || '0.00'}
           </p>
           <span className="text-[10px] text-slate-500">Customer promotion savings</span>
         </div>
@@ -241,9 +241,9 @@ const AdminDashboardPage = () => {
                     <Store size={14} className="text-amber-600" />
                     <span>{v.vendorName}</span>
                   </td>
-                  <td className="py-3 px-4 font-semibold text-slate-800">${v.grossSales.toFixed(2)}</td>
-                  <td className="py-3 px-4 font-bold text-emerald-600">${v.vendorShare.toFixed(2)}</td>
-                  <td className="py-3 px-4 font-bold text-amber-600">${v.commissionPaid.toFixed(2)}</td>
+                  <td className="py-3 px-4 font-semibold text-slate-800">₹{v.grossSales.toFixed(2)}</td>
+                  <td className="py-3 px-4 font-bold text-emerald-600">₹{v.vendorShare.toFixed(2)}</td>
+                  <td className="py-3 px-4 font-bold text-amber-600">₹{v.commissionPaid.toFixed(2)}</td>
                   <td className="py-3 px-4 font-medium text-slate-700">{v.ordersCount}</td>
                   <td className="py-3 px-4 font-medium text-slate-700">{v.unitsSold}</td>
                 </tr>
@@ -257,3 +257,4 @@ const AdminDashboardPage = () => {
 };
 
 export default AdminDashboardPage;
+

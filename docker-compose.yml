@@ -41,3 +41,4 @@ volumes:
   mongo_data:
   redis_data:
   es_data:
+

@@ -127,7 +127,7 @@ const OrderSuccessPage = () => {
                   <div className="flex justify-between items-start">
                     <h4 className="font-bold text-slate-800">{item.name}</h4>
                     <span className="font-bold text-slate-900 text-sm">
-                      ${(item.price * item.quantity).toFixed(2)}
+                      ₹{(item.price * item.quantity).toFixed(2)}
                     </span>
                   </div>
                   <p className="text-[11px] text-slate-500 mt-0.5 flex items-center">
@@ -158,16 +158,16 @@ const OrderSuccessPage = () => {
           </div>
 
           <div className="space-y-1 sm:text-right">
-            <p>Subtotal: <strong className="text-slate-900">${order.subtotal?.toFixed(2)}</strong></p>
+            <p>Subtotal: <strong className="text-slate-900">₹{order.subtotal?.toFixed(2)}</strong></p>
             {order.discount > 0 && (
               <p className="text-emerald-600 font-semibold">
-                Coupon ({order.couponApplied?.code}): -${order.discount.toFixed(2)}
+                Coupon ({order.couponApplied?.code}): -₹{order.discount.toFixed(2)}
               </p>
             )}
-            <p>Tax (8%): <strong className="text-slate-900">${order.tax?.toFixed(2)}</strong></p>
-            <p>Shipping: <strong className="text-slate-900">{order.shippingFee === 0 ? 'FREE' : `$${order.shippingFee?.toFixed(2)}`}</strong></p>
+            <p>Tax (8%): <strong className="text-slate-900">₹{order.tax?.toFixed(2)}</strong></p>
+            <p>Shipping: <strong className="text-slate-900">{order.shippingFee === 0 ? 'FREE' : `₹${order.shippingFee?.toFixed(2)}`}</strong></p>
             <p className="text-sm font-black text-slate-900 pt-2 border-t border-slate-100">
-              Total Paid: ${order.totalAmount?.toFixed(2)}
+              Total Paid: ₹{order.totalAmount?.toFixed(2)}
             </p>
           </div>
         </div>
@@ -177,3 +177,4 @@ const OrderSuccessPage = () => {
 };
 
 export default OrderSuccessPage;
+

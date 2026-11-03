@@ -36,3 +36,4 @@ const RatingStars = ({ rating = 0, numReviews, size = 16, interactive = false, o
 };
 
 export default RatingStars;
+

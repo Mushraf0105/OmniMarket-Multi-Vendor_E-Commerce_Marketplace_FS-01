@@ -212,16 +212,16 @@ const ProductDetailPage = () => {
             <div className="p-4 bg-slate-50 rounded-xl border border-slate-100 space-y-1">
               <div className="flex items-baseline space-x-3">
                 <span className="text-3xl font-black text-slate-900">
-                  ${product.price.toFixed(2)}
+                  ₹{product.price.toFixed(2)}
                 </span>
                 {product.compareAtPrice > product.price && (
                   <span className="text-base text-slate-400 line-through">
-                    ${product.compareAtPrice.toFixed(2)}
+                    ₹{product.compareAtPrice.toFixed(2)}
                   </span>
                 )}
                 {product.compareAtPrice > product.price && (
                   <span className="text-xs font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded">
-                    Save ${(product.compareAtPrice - product.price).toFixed(2)}
+                    Save ₹{(product.compareAtPrice - product.price).toFixed(2)}
                   </span>
                 )}
               </div>
@@ -465,3 +465,4 @@ const ProductDetailPage = () => {
 };
 
 export default ProductDetailPage;
+

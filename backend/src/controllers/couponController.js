@@ -29,7 +29,7 @@ export const validateCoupon = async (req, res, next) => {
     if (total < coupon.minOrderValue) {
       return res.status(400).json({
         success: false,
-        message: `Minimum order value of $${coupon.minOrderValue} required for this coupon`
+        message: `Minimum order value of ₹${coupon.minOrderValue} required for this coupon`
       });
     }
 
@@ -133,3 +133,4 @@ export const deleteCoupon = async (req, res, next) => {
     next(err);
   }
 };
+

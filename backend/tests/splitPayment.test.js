@@ -28,14 +28,14 @@ test('Marketplace Multi-Vendor Split: Independent Vendors in Single Cart', () =>
     {
       product: 'p1',
       price: 50,
-      quantity: 2, // $100 total
+      quantity: 2, // ₹100 total
       vendor: 'vendor_tech',
       vendorName: 'Tech Store'
     },
     {
       product: 'p2',
       price: 200,
-      quantity: 1, // $200 total
+      quantity: 1, // ₹200 total
       vendor: 'vendor_fashion',
       vendorName: 'Fashion Store'
     }
@@ -77,7 +77,7 @@ test('Marketplace Split with Promotional Coupon Discount Pro-rated Across Vendor
     }
   ];
 
-  const discount = 30; // $30 total coupon discount
+  const discount = 30; // ₹30 total coupon discount
   const breakdown = calculateSplitBreakdown(items, 10, discount);
 
   assert.equal(breakdown.totalGross, 300);
@@ -87,3 +87,4 @@ test('Marketplace Split with Promotional Coupon Discount Pro-rated Across Vendor
   assert.equal(breakdown.totalCommission, 27);
   assert.equal(breakdown.totalVendorPayout, 243);
 });
+

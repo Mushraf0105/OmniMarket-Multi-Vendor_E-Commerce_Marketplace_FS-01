@@ -145,7 +145,7 @@ const CartPage = () => {
                           {item.name}
                         </Link>
                         <span className="font-bold text-sm text-slate-900 ml-4 shrink-0">
-                          ${(item.price * item.quantity).toFixed(2)}
+                          ₹{(item.price * item.quantity).toFixed(2)}
                         </span>
                       </div>
 
@@ -208,19 +208,19 @@ const CartPage = () => {
             <div className="space-y-2 text-xs">
               <div className="flex justify-between text-slate-600">
                 <span>Subtotal ({cart.totalItems} items)</span>
-                <span className="font-semibold text-slate-900">${cart.subtotal.toFixed(2)}</span>
+                <span className="font-semibold text-slate-900">₹{cart.subtotal.toFixed(2)}</span>
               </div>
 
               {discountAmount > 0 && (
                 <div className="flex justify-between text-emerald-600 font-semibold">
                   <span>Coupon Discount ({appliedCoupon?.code})</span>
-                  <span>-${discountAmount.toFixed(2)}</span>
+                  <span>-₹{discountAmount.toFixed(2)}</span>
                 </div>
               )}
 
               <div className="flex justify-between text-slate-600">
                 <span>Estimated Tax (8%)</span>
-                <span className="font-semibold text-slate-900">${tax.toFixed(2)}</span>
+                <span className="font-semibold text-slate-900">₹{tax.toFixed(2)}</span>
               </div>
 
               <div className="flex justify-between text-slate-600">
@@ -229,21 +229,21 @@ const CartPage = () => {
                   {shipping === 0 ? (
                     <span className="text-emerald-600 font-bold">FREE</span>
                   ) : (
-                    `$${shipping.toFixed(2)}`
+                    `₹${shipping.toFixed(2)}`
                   )}
                 </span>
               </div>
 
               {shipping > 0 && (
                 <p className="text-[10px] text-slate-400 italic">
-                  Free shipping on orders over $100!
+                  Free shipping on orders over ₹100!
                 </p>
               )}
 
               <div className="pt-3 border-t border-slate-100 flex justify-between items-baseline text-sm">
                 <span className="font-bold text-slate-900">Estimated Total</span>
                 <span className="text-2xl font-black text-slate-900">
-                  ${grandTotal.toFixed(2)}
+                  ₹{grandTotal.toFixed(2)}
                 </span>
               </div>
             </div>
@@ -260,7 +260,7 @@ const CartPage = () => {
                   <div className="flex items-center space-x-1.5">
                     <Check size={14} className="text-emerald-600" />
                     <span className="font-bold text-emerald-900">{appliedCoupon.code}</span>
-                    <span className="text-emerald-700">(-${discountAmount.toFixed(2)})</span>
+                    <span className="text-emerald-700">(-₹{discountAmount.toFixed(2)})</span>
                   </div>
                   <button
                     onClick={removeCoupon}
@@ -315,3 +315,4 @@ const CartPage = () => {
 };
 
 export default CartPage;
+

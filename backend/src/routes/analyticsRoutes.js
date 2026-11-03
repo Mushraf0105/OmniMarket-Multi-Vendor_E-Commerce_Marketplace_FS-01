@@ -8,3 +8,4 @@ const router = express.Router();
 router.get('/admin', protect, authorize('admin'), getAdminAnalytics);
 
 export default router;
+

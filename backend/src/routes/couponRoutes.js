@@ -16,3 +16,4 @@ router.post('/', protect, authorize('admin', 'vendor'), createCoupon);
 router.delete('/:id', protect, authorize('admin'), deleteCoupon);
 
 export default router;
+

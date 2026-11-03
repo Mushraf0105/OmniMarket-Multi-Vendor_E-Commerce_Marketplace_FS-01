@@ -71,8 +71,8 @@ export const generateOrderInvoicePDF = (order, stream) => {
       .fontSize(9)
       .fillColor('#0f172a')
       .text(item.quantity.toString(), 310, yPosition, { width: 40, align: 'center' })
-      .text(`$${item.price.toFixed(2)}`, 360, yPosition, { width: 80, align: 'right' })
-      .text(`$${itemTotal}`, 450, yPosition, { width: 85, align: 'right' });
+      .text(`Rs. ${item.price.toFixed(2)}`, 360, yPosition, { width: 80, align: 'right' })
+      .text(`Rs. ${itemTotal}`, 450, yPosition, { width: 85, align: 'right' });
 
     yPosition += 32;
   });
@@ -89,26 +89,26 @@ export const generateOrderInvoicePDF = (order, stream) => {
     .fontSize(9)
     .fillColor('#475569')
     .text('Subtotal:', summaryLeft, yPosition)
-    .text(`$${order.subtotal.toFixed(2)}`, summaryRight, yPosition, { width: summaryWidth, align: 'right' });
+    .text(`Rs. ${order.subtotal.toFixed(2)}`, summaryRight, yPosition, { width: summaryWidth, align: 'right' });
 
   if (order.discount > 0) {
     yPosition += 16;
     doc
       .text(`Discount (${order.couponApplied?.code || 'Coupon'}):`, summaryLeft, yPosition)
       .fillColor('#16a34a')
-      .text(`-$${order.discount.toFixed(2)}`, summaryRight, yPosition, { width: summaryWidth, align: 'right' })
+      .text(`-Rs. ${order.discount.toFixed(2)}`, summaryRight, yPosition, { width: summaryWidth, align: 'right' })
       .fillColor('#475569');
   }
 
   yPosition += 16;
   doc
     .text('Tax (8%):', summaryLeft, yPosition)
-    .text(`$${order.tax.toFixed(2)}`, summaryRight, yPosition, { width: summaryWidth, align: 'right' });
+    .text(`Rs. ${order.tax.toFixed(2)}`, summaryRight, yPosition, { width: summaryWidth, align: 'right' });
 
   yPosition += 16;
   doc
     .text('Shipping:', summaryLeft, yPosition)
-    .text(order.shippingFee === 0 ? 'FREE' : `$${order.shippingFee.toFixed(2)}`, summaryRight, yPosition, { width: summaryWidth, align: 'right' });
+    .text(order.shippingFee === 0 ? 'FREE' : `Rs. ${order.shippingFee.toFixed(2)}`, summaryRight, yPosition, { width: summaryWidth, align: 'right' });
 
   yPosition += 20;
   doc
@@ -120,7 +120,7 @@ export const generateOrderInvoicePDF = (order, stream) => {
     .fontSize(11)
     .fillColor('#0f172a')
     .text('Total Paid:', summaryLeft, yPosition + 2, { bold: true })
-    .text(`$${order.totalAmount.toFixed(2)}`, summaryRight, yPosition + 2, { width: summaryWidth, align: 'right', bold: true });
+    .text(`Rs. ${order.totalAmount.toFixed(2)}`, summaryRight, yPosition + 2, { width: summaryWidth, align: 'right', bold: true });
 
   // Footer Note
   doc
@@ -130,3 +130,4 @@ export const generateOrderInvoicePDF = (order, stream) => {
 
   doc.end();
 };
+

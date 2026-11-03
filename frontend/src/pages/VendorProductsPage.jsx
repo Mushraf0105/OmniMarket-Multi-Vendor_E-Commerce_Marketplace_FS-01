@@ -255,7 +255,7 @@ const VendorProductsPage = () => {
                       </div>
                     </td>
                     <td className="py-3 px-4 font-medium text-slate-600">{p.category}</td>
-                    <td className="py-3 px-4 font-bold text-slate-900">${p.price.toFixed(2)}</td>
+                    <td className="py-3 px-4 font-bold text-slate-900">₹{p.price.toFixed(2)}</td>
                     <td className="py-3 px-4">
                       <span
                         className={`font-semibold px-2 py-0.5 rounded text-[11px] ${
@@ -351,7 +351,7 @@ const VendorProductsPage = () => {
 
               <div className="grid grid-cols-3 gap-4">
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">Selling Price ($)</label>
+                  <label className="block font-bold text-slate-700 mb-1">Selling Price (₹)</label>
                   <input
                     type="number"
                     step="0.01"
@@ -364,7 +364,7 @@ const VendorProductsPage = () => {
                 </div>
 
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">Original Price ($)</label>
+                  <label className="block font-bold text-slate-700 mb-1">Original Price (₹)</label>
                   <input
                     type="number"
                     step="0.01"
@@ -470,3 +470,4 @@ const VendorProductsPage = () => {
 };
 
 export default VendorProductsPage;
+

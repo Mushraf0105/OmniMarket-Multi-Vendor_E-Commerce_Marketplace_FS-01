@@ -312,18 +312,18 @@ const CheckoutPage = () => {
                           <Building size={14} className="mr-1.5 text-slate-400 shrink-0" />
                           <span className="truncate max-w-[180px]">{s.vendorName}</span>
                         </td>
-                        <td className="py-2.5 text-right text-slate-300">${s.grossAmount.toFixed(2)}</td>
-                        <td className="py-2.5 text-right text-amber-400">${s.platformCommission.toFixed(2)}</td>
-                        <td className="py-2.5 text-right font-bold text-emerald-400">${s.vendorShare.toFixed(2)}</td>
+                        <td className="py-2.5 text-right text-slate-300">₹{s.grossAmount.toFixed(2)}</td>
+                        <td className="py-2.5 text-right text-amber-400">₹{s.platformCommission.toFixed(2)}</td>
+                        <td className="py-2.5 text-right font-bold text-emerald-400">₹{s.vendorShare.toFixed(2)}</td>
                       </tr>
                     ))}
                     <tr className="border-t border-slate-700 font-bold">
                       <td className="pt-3 font-sans text-amber-300">Marketplace Commission Retained:</td>
                       <td colSpan={2} className="pt-3 text-right text-amber-300 font-bold">
-                        ${splitPreview.totalCommission.toFixed(2)}
+                        ₹{splitPreview.totalCommission.toFixed(2)}
                       </td>
                       <td className="pt-3 text-right text-emerald-400 font-bold">
-                        ${splitPreview.totalVendorPayout.toFixed(2)}
+                        ₹{splitPreview.totalVendorPayout.toFixed(2)}
                       </td>
                     </tr>
                   </tbody>
@@ -352,11 +352,11 @@ const CheckoutPage = () => {
                   <div className="flex-1 truncate">
                     <p className="font-semibold text-slate-800 truncate">{item.name}</p>
                     <p className="text-[11px] text-slate-400">
-                      Qty: {item.quantity} × ${item.price.toFixed(2)}
+                      Qty: {item.quantity} × ₹{item.price.toFixed(2)}
                     </p>
                   </div>
                   <span className="font-bold text-slate-900">
-                    ${(item.price * item.quantity).toFixed(2)}
+                    ₹{(item.price * item.quantity).toFixed(2)}
                   </span>
                 </div>
               ))}
@@ -366,25 +366,25 @@ const CheckoutPage = () => {
             <div className="pt-3 border-t border-slate-100 space-y-1.5 text-xs">
               <div className="flex justify-between text-slate-600">
                 <span>Subtotal</span>
-                <span>${cart.subtotal.toFixed(2)}</span>
+                <span>₹{cart.subtotal.toFixed(2)}</span>
               </div>
               {discountAmount > 0 && (
                 <div className="flex justify-between text-emerald-600 font-semibold">
                   <span>Coupon Discount</span>
-                  <span>-${discountAmount.toFixed(2)}</span>
+                  <span>-₹{discountAmount.toFixed(2)}</span>
                 </div>
               )}
               <div className="flex justify-between text-slate-600">
                 <span>Estimated Tax (8%)</span>
-                <span>${tax.toFixed(2)}</span>
+                <span>₹{tax.toFixed(2)}</span>
               </div>
               <div className="flex justify-between text-slate-600">
                 <span>Shipping</span>
-                <span>{shipping === 0 ? 'FREE' : `$${shipping.toFixed(2)}`}</span>
+                <span>{shipping === 0 ? 'FREE' : `₹${shipping.toFixed(2)}`}</span>
               </div>
               <div className="pt-2 border-t border-slate-100 flex justify-between items-baseline">
                 <span className="font-bold text-slate-900 text-sm">Total to Pay</span>
-                <span className="font-black text-2xl text-slate-900">${grandTotal.toFixed(2)}</span>
+                <span className="font-black text-2xl text-slate-900">₹{grandTotal.toFixed(2)}</span>
               </div>
             </div>
 
@@ -415,3 +415,4 @@ const CheckoutPage = () => {
 };
 
 export default CheckoutPage;
+

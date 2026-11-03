@@ -86,3 +86,4 @@ productSchema.index({ name: 'text', description: 'text', brand: 'text', tags: 't
 productSchema.index({ category: 1, price: 1, rating: -1 });
 
 export default mongoose.model('Product', productSchema);
+

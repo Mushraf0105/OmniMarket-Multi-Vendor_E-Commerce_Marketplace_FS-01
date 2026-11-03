@@ -220,7 +220,7 @@ const SearchPage = () => {
             {/* Price Range */}
             <div>
               <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-2">
-                Price Range ($)
+                Price Range (₹)
               </label>
               <form onSubmit={handlePriceApply} className="space-y-2">
                 <div className="flex items-center space-x-2">
@@ -338,3 +338,4 @@ const SearchPage = () => {
 };
 
 export default SearchPage;
+
