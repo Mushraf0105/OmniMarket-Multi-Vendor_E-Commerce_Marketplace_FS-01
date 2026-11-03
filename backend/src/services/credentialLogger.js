@@ -71,3 +71,4 @@ export const saveCredentialRecord = ({
     console.error('[Credentials] Failed to log credential record:', err.message);
   }
 };
+
