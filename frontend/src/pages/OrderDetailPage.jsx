@@ -10,13 +10,27 @@ import {
   CheckCircle,
   FileText
 } from 'lucide-react';
-import api from '../services/api';
+import api, { downloadOrderInvoicePDF } from '../services/api';
 import LifecycleTracker from '../components/LifecycleTracker';
 
 const OrderDetailPage = () => {
   const { id } = useParams();
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [downloading, setDownloading] = useState(false);
+
+  const handleDownload = async () => {
+    if (!order) return;
+    try {
+      setDownloading(true);
+      await downloadOrderInvoicePDF(order._id, order.orderNumber);
+    } catch (err) {
+      console.error('Invoice download failed:', err);
+      alert('Could not download invoice. Please try again.');
+    } finally {
+      setDownloading(false);
+    }
+  };
 
   useEffect(() => {
     const fetchOrder = async () => {
@@ -74,15 +88,14 @@ const OrderDetailPage = () => {
           </div>
         </div>
 
-        <a
-          href={`/api/orders/${order._id}/invoice`}
-          target="_blank"
-          rel="noreferrer"
-          className="inline-flex items-center space-x-2 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow transition-colors"
+        <button
+          onClick={handleDownload}
+          disabled={downloading}
+          className="inline-flex items-center space-x-2 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow transition-colors disabled:opacity-50 cursor-pointer"
         >
-          <Download size={14} />
-          <span>Download PDF Tax Invoice</span>
-        </a>
+          <Download size={14} className={downloading ? 'animate-bounce' : ''} />
+          <span>{downloading ? 'Generating PDF Invoice...' : 'Download PDF Tax Invoice'}</span>
+        </button>
       </div>
 
       {/* Lifecycle Tracker */}

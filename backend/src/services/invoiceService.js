@@ -27,16 +27,17 @@ export const generateOrderInvoicePDF = (order, stream) => {
   doc.moveTo(50, 125).lineTo(545, 125).strokeColor('#e2e8f0').stroke();
 
   // Billed To & Shipped To
+  const shipping = order.shippingAddress || {};
   doc
     .fontSize(11)
     .fillColor('#131921')
     .text('Billed & Shipped To:', 50, 140, { bold: true })
     .fontSize(10)
     .fillColor('#334155')
-    .text(order.shippingAddress.fullName, 50, 158)
-    .text(order.shippingAddress.addressLine1, 50, 172)
-    .text(`${order.shippingAddress.city}, ${order.shippingAddress.state} ${order.shippingAddress.postalCode}`, 50, 186)
-    .text(`Phone: ${order.shippingAddress.phone}`, 50, 200);
+    .text(shipping.fullName || order.customer?.name || 'Customer', 50, 158)
+    .text(shipping.addressLine1 || shipping.street || 'Address on file', 50, 172)
+    .text(`${shipping.city || ''}, ${shipping.state || ''} ${shipping.postalCode || ''}`.trim() || 'N/A', 50, 186)
+    .text(`Phone: ${shipping.phone || order.customer?.phone || 'N/A'}`, 50, 200);
 
   // Table Header
   const tableTop = 235;

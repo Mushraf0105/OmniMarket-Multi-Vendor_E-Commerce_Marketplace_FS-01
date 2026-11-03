@@ -9,13 +9,14 @@ import {
   Building,
   Download
 } from 'lucide-react';
-import api from '../services/api';
+import api, { downloadOrderInvoicePDF } from '../services/api';
 import LifecycleTracker from '../components/LifecycleTracker';
 
 const OrderSuccessPage = () => {
   const { id } = useParams();
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [downloading, setDownloading] = useState(false);
 
   useEffect(() => {
     const fetchOrder = async () => {
@@ -35,8 +36,16 @@ const OrderSuccessPage = () => {
     fetchOrder();
   }, [id]);
 
-  const handleDownloadInvoice = () => {
-    window.open(`/api/orders/${id}/invoice`, '_blank');
+  const handleDownloadInvoice = async () => {
+    try {
+      setDownloading(true);
+      await downloadOrderInvoicePDF(id, order?.orderNumber);
+    } catch (err) {
+      console.error('Invoice download failed:', err);
+      alert('Could not download invoice. Please try again.');
+    } finally {
+      setDownloading(false);
+    }
   };
 
   if (loading) {
@@ -82,10 +91,11 @@ const OrderSuccessPage = () => {
         <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
           <button
             onClick={handleDownloadInvoice}
-            className="inline-flex items-center space-x-2 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs px-5 py-2.5 rounded-xl shadow transition-colors"
+            disabled={downloading}
+            className="inline-flex items-center space-x-2 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs px-5 py-2.5 rounded-xl shadow transition-colors disabled:opacity-50 cursor-pointer"
           >
-            <Download size={15} />
-            <span>Download Official PDF Invoice</span>
+            <Download size={15} className={downloading ? 'animate-bounce' : ''} />
+            <span>{downloading ? 'Downloading Official PDF...' : 'Download Official PDF Invoice'}</span>
           </button>
 
           <Link

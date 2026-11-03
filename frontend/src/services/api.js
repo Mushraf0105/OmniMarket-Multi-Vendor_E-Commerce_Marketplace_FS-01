@@ -37,5 +37,30 @@ api.interceptors.response.use(
   }
 );
 
+export const downloadOrderInvoicePDF = async (orderId, orderNumber) => {
+  const token = localStorage.getItem('omni_token');
+  try {
+    const response = await api.get(`/orders/${orderId}/invoice`, {
+      responseType: 'blob'
+    });
+    const blob = new Blob([response.data], { type: 'application/pdf' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `Invoice-${orderNumber || orderId}.pdf`);
+    document.body.appendChild(link);
+    link.click();
+    link.parentNode.removeChild(link);
+    setTimeout(() => window.URL.revokeObjectURL(url), 2000);
+    return true;
+  } catch (err) {
+    if (token) {
+      window.open(`/api/orders/${orderId}/invoice?token=${encodeURIComponent(token)}`, '_blank');
+      return true;
+    }
+    throw err;
+  }
+};
+
 export default api;
 

@@ -1,11 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Package, Download, ArrowRight, Eye, Calendar, DollarSign } from 'lucide-react';
-import api from '../services/api';
+import api, { downloadOrderInvoicePDF } from '../services/api';
 
 const OrderHistoryPage = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [downloadingId, setDownloadingId] = useState(null);
+
+  const handleDownload = async (orderId, orderNumber) => {
+    try {
+      setDownloadingId(orderId);
+      await downloadOrderInvoicePDF(orderId, orderNumber);
+    } catch (err) {
+      console.error('Invoice download failed:', err);
+      alert('Could not download invoice. Please try again.');
+    } finally {
+      setDownloadingId(null);
+    }
+  };
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -145,15 +158,15 @@ const OrderHistoryPage = () => {
                 </div>
 
                 <div className="flex items-center space-x-2 shrink-0">
-                  <a
-                    href={`/api/orders/${order._id}/invoice`}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center space-x-1.5 text-xs font-semibold text-slate-700 bg-white border border-slate-300 hover:bg-slate-50 px-3 py-2 rounded-lg transition-colors"
+                  <button
+                    onClick={() => handleDownload(order._id, order.orderNumber)}
+                    disabled={downloadingId === order._id}
+                    title="Download Official PDF Invoice"
+                    className="inline-flex items-center space-x-1.5 text-xs font-semibold text-slate-700 bg-white border border-slate-300 hover:bg-slate-50 px-3 py-2 rounded-lg transition-colors disabled:opacity-50 cursor-pointer shadow-sm"
                   >
-                    <Download size={13} />
-                    <span>PDF Invoice</span>
-                  </a>
+                    <Download size={13} className={downloadingId === order._id ? 'animate-bounce' : ''} />
+                    <span>{downloadingId === order._id ? 'Downloading...' : 'PDF Invoice'}</span>
+                  </button>
 
                   <Link
                     to={`/orders/${order._id}`}

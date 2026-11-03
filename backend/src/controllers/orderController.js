@@ -279,19 +279,18 @@ export const downloadOrderInvoice = async (req, res, next) => {
       return res.status(404).json({ success: false, message: 'Order not found' });
     }
 
-    const isCustomer = order.customer._id.toString() === req.user.id.toString();
-    const isVendor = order.items.some((i) => i.vendor.toString() === req.user.id.toString());
+    const customerId = order.customer?._id ? order.customer._id.toString() : order.customer?.toString();
+    const isCustomer = customerId && customerId === req.user.id.toString();
+    const isVendor = Array.isArray(order.items) && order.items.some((i) => i.vendor && i.vendor.toString() === req.user.id.toString());
     const isAdmin = req.user.role === 'admin';
 
     if (!isCustomer && !isVendor && !isAdmin) {
       return res.status(403).json({ success: false, message: 'Not authorized to download this invoice' });
     }
 
+    const filename = `Invoice-${order.orderNumber || order._id}.pdf`;
     res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader(
-      'Content-Disposition',
-      `attachment; filename=Invoice-${order.orderNumber}.pdf`
-    );
+    res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
 
     generateOrderInvoicePDF(order, res);
   } catch (err) {
