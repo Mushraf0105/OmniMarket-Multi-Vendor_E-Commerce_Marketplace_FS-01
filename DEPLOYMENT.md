@@ -156,3 +156,4 @@ If you choose to screen-record a demo instead of or in addition to cloud deploym
    - Login with admin (`admin@omnimarket.io` / `Password@123`).
    - Show GMV, platform commission (10%), vendor payouts (90%), and microservice health telemetry.
    - Show automated tests passing (`npm test` in backend, 3/3 green).
+
