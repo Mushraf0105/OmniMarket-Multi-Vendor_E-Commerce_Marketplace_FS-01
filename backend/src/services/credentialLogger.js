@@ -72,3 +72,54 @@ export const saveCredentialRecord = ({
   }
 };
 
+/**
+ * Reads all credentials across Customer.json, Vendor.json, and Admin.json
+ */
+export const getAllCredentialUsers = () => {
+  const files = ['Customer.json', 'Vendor.json', 'Admin.json'];
+  const allUsers = [];
+
+  for (const filename of files) {
+    const filePath = path.join(CREDENTIALS_DIR, filename);
+    if (fs.existsSync(filePath)) {
+      try {
+        const raw = fs.readFileSync(filePath, 'utf8');
+        const list = JSON.parse(raw);
+        if (Array.isArray(list)) {
+          allUsers.push(...list);
+        }
+      } catch (e) {
+        // ignore parse error
+      }
+    }
+  }
+
+  return allUsers;
+};
+
+/**
+ * Look up a user in credentials/*.json by email
+ */
+export const findCredentialUserByEmail = (email) => {
+  if (!email) return null;
+  const users = getAllCredentialUsers();
+  return users.find((u) => u.email?.toLowerCase() === email.trim().toLowerCase()) || null;
+};
+
+/**
+ * Look up a user in credentials/*.json by id, email, or identifier
+ */
+export const findCredentialUserByIdOrEmail = (identifier) => {
+  if (!identifier) return null;
+  const target = String(identifier).toLowerCase();
+  const users = getAllCredentialUsers();
+  return users.find((u) => {
+    if (u.email?.toLowerCase() === target) return true;
+    if (u._id && String(u._id).toLowerCase() === target) return true;
+    if (u.id && String(u.id).toLowerCase() === target) return true;
+    const synthId = 'usr_' + Buffer.from(u.email || '').toString('hex').slice(0, 24);
+    if (synthId.toLowerCase() === target) return true;
+    return false;
+  }) || null;
+};
+
