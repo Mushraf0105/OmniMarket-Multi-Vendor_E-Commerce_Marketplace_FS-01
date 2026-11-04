@@ -149,6 +149,7 @@ See [`TEST_REPORT.md`](./TEST_REPORT.md) for full benchmarks and coverage matrix
 - 📊 [**Test Report & Benchmarks**](./TEST_REPORT.md) — Latency numbers for Redis, Elasticsearch throughput, and test matrix.
 - 🎤 [**10-Minute Presentation Slide Deck**](./PRESENTATION.md) — Markdown slide deck covering Problem, Design, Challenges, Results, and Next Steps.
 - 💡 [**Individual Intern Reflections**](./REFLECTIONS.md) — Technical ownership, engineering trade-offs, and lessons learned.
+- 🚀 [**Deployment Guide**](./DEPLOYMENT.md) — Step-by-step instructions for separate frontend (Vercel) and backend (Render) deployment, Docker, and demo recording.
 - 🐳 [**Docker Compose Configuration**](./docker-compose.yml) — Containerized deployment for MongoDB, Redis, and Elasticsearch.
 
 ---
