@@ -11,7 +11,6 @@ import {
   ShoppingBag
 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
-import { useAuth } from '../context/AuthContext';
 
 const CartPage = () => {
   const {
@@ -25,7 +24,6 @@ const CartPage = () => {
     applyCoupon,
     removeCoupon
   } = useCart();
-  const { user } = useAuth();
   const navigate = useNavigate();
 
   const [couponInput, setCouponInput] = useState('');
