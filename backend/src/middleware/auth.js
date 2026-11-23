@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import mongoose from 'mongoose';
 import User from '../models/User.js';
 import { findCredentialUserByIdOrEmail } from '../services/credentialLogger.js';
 
@@ -28,10 +29,12 @@ export const protect = async (req, res, next) => {
     );
 
     let user = null;
-    try {
-      user = await User.findById(decoded.id);
-    } catch (e) {
-      // Mongo offline or non-ObjectId
+    if (mongoose.connection?.readyState === 1) {
+      try {
+        user = await User.findById(decoded.id);
+      } catch (e) {
+        // Mongo error
+      }
     }
 
     if (!user) {

@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import mongoose from 'mongoose';
 import User from '../models/User.js';
 import {
   saveCredentialRecord,
@@ -59,28 +60,30 @@ export const register = async (req, res, next) => {
 
     // 2. Also attempt MongoDB save if database is running
     let user = null;
-    try {
-      const userData = {
-        name,
-        email,
-        password,
-        role: role || 'customer',
-        phone: phone || ''
-      };
-
-      if (role === 'vendor') {
-        userData.vendorProfile = {
-          storeName: storeName || `${name}'s Store`,
-          slug: (storeName || name).toLowerCase().replace(/[^a-z0-9]+/g, '-'),
-          description: storeDescription || 'Welcome to our verified marketplace store!',
-          commissionRate: Number(process.env.DEFAULT_COMMISSION_PERCENTAGE || 10),
-          isApproved: true
+    if (mongoose.connection?.readyState === 1) {
+      try {
+        const userData = {
+          name,
+          email,
+          password,
+          role: role || 'customer',
+          phone: phone || ''
         };
-      }
 
-      user = await User.create(userData);
-    } catch (dbErr) {
-      console.warn('[Auth] MongoDB write skipped, using credentials store:', dbErr.message);
+        if (role === 'vendor') {
+          userData.vendorProfile = {
+            storeName: storeName || `${name}'s Store`,
+            slug: (storeName || name).toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+            description: storeDescription || 'Welcome to our verified marketplace store!',
+            commissionRate: Number(process.env.DEFAULT_COMMISSION_PERCENTAGE || 10),
+            isApproved: true
+          };
+        }
+
+        user = await User.create(userData);
+      } catch (dbErr) {
+        console.warn('[Auth] MongoDB write notice:', dbErr.message);
+      }
     }
 
     // Fallback in-memory user if Mongo is offline
@@ -122,25 +125,27 @@ export const login = async (req, res, next) => {
     if (credUser) {
       if (String(credUser.password) === String(password)) {
         let user = null;
-        try {
-          user = await User.findOne({ email }).select('+password');
-          if (!user) {
-            user = await User.create({
-              name: credUser.name,
-              email: credUser.email,
-              password: credUser.password,
-              role: credUser.role || 'customer',
-              phone: credUser.phone || '',
-              vendorProfile: credUser.role === 'vendor' ? {
-                storeName: credUser.storeName || `${credUser.name}'s Store`,
-                slug: (credUser.storeName || credUser.name).toLowerCase().replace(/[^a-z0-9]+/g, '-'),
-                description: 'Verified Merchant Store',
-                isApproved: true
-              } : undefined
-            });
+        if (mongoose.connection?.readyState === 1) {
+          try {
+            user = await User.findOne({ email }).select('+password');
+            if (!user) {
+              user = await User.create({
+                name: credUser.name,
+                email: credUser.email,
+                password: credUser.password,
+                role: credUser.role || 'customer',
+                phone: credUser.phone || '',
+                vendorProfile: credUser.role === 'vendor' ? {
+                  storeName: credUser.storeName || `${credUser.name}'s Store`,
+                  slug: (credUser.storeName || credUser.name).toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+                  description: 'Verified Merchant Store',
+                  isApproved: true
+                } : undefined
+              });
+            }
+          } catch (dbErr) {
+            // Mongo error - proceed with synthesized user
           }
-        } catch (dbErr) {
-          // Mongo offline - proceed with synthesized user
         }
 
         if (!user) {
@@ -161,17 +166,19 @@ export const login = async (req, res, next) => {
       }
     }
 
-    // 2. Check MongoDB directly if not found in credentials or password differed
-    try {
-      const user = await User.findOne({ email }).select('+password');
-      if (user) {
-        const isMatch = await user.matchPassword(password);
-        if (isMatch) {
-          return sendTokenResponse(user, 200, res);
+    // 2. Check MongoDB directly if connected and not matched above
+    if (mongoose.connection?.readyState === 1) {
+      try {
+        const user = await User.findOne({ email }).select('+password');
+        if (user) {
+          const isMatch = await user.matchPassword(password);
+          if (isMatch) {
+            return sendTokenResponse(user, 200, res);
+          }
         }
+      } catch (dbErr) {
+        // Mongo offline
       }
-    } catch (dbErr) {
-      // Mongo offline
     }
 
     return res.status(401).json({ success: false, message: 'Invalid credentials. Please check email and password.' });
@@ -186,10 +193,12 @@ export const login = async (req, res, next) => {
 export const getMe = async (req, res, next) => {
   try {
     let user = null;
-    try {
-      user = await User.findById(req.user.id || req.user._id);
-    } catch (e) {
-      // ignore
+    if (mongoose.connection?.readyState === 1) {
+      try {
+        user = await User.findById(req.user.id || req.user._id);
+      } catch (e) {
+        // ignore
+      }
     }
     res.status(200).json({
       success: true,
@@ -211,10 +220,21 @@ export const updateProfile = async (req, res, next) => {
       address: req.body.address
     };
 
-    const user = await User.findByIdAndUpdate(req.user.id, fieldsToUpdate, {
-      new: true,
-      runValidators: true
-    });
+    let user = null;
+    if (mongoose.connection?.readyState === 1) {
+      try {
+        user = await User.findByIdAndUpdate(req.user.id || req.user._id, fieldsToUpdate, {
+          new: true,
+          runValidators: true
+        });
+      } catch (e) {
+        // ignore
+      }
+    }
+
+    if (!user) {
+      user = { ...(req.user.toObject ? req.user.toObject() : req.user), ...fieldsToUpdate };
+    }
 
     res.status(200).json({
       success: true,
