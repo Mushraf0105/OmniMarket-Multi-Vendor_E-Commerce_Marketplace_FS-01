@@ -4,28 +4,43 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 let mongoMemoryServer = null;
 
 export const connectDB = async () => {
-  const uri = process.env.MONGO_URI || 'mongodb://localhost:27017/multivendor_ecommerce';
+  const uri = process.env.MONGODB_URI || process.env.MONGO_URI;
   
-  try {
-    // Attempt local MongoDB connection with 2.5 second timeout
-    mongoose.set('strictQuery', false);
-    const conn = await mongoose.connect(uri, {
-      serverSelectionTimeoutMS: 2500,
-    });
-    console.log(`[MongoDB] Connected to real MongoDB at ${conn.connection.host}`);
-    return conn;
-  } catch (err) {
-    console.warn(`[MongoDB] Local MongoDB connection failed (${err.message}). Starting in-memory MongoDB fallback...`);
+  if (uri) {
     try {
-      mongoMemoryServer = await MongoMemoryServer.create();
-      const memoryUri = mongoMemoryServer.getUri();
-      const conn = await mongoose.connect(memoryUri);
-      console.log(`[MongoDB] Connected to In-Memory MongoDB Server at ${memoryUri}`);
+      mongoose.set('strictQuery', false);
+      const conn = await mongoose.connect(uri, {
+        serverSelectionTimeoutMS: 3000,
+      });
+      console.log(`[MongoDB] Connected to external MongoDB at ${conn.connection.host}`);
       return conn;
-    } catch (memErr) {
-      console.error('[MongoDB] Fatal error initializing In-Memory MongoDB:', memErr.message);
-      process.exit(1);
+    } catch (err) {
+      console.warn(`[MongoDB] External MongoDB connection failed (${err.message}). Falling back to In-Memory MongoDB...`);
     }
+  } else {
+    // Check if local mongod is running on default port
+    try {
+      mongoose.set('strictQuery', false);
+      const conn = await mongoose.connect('mongodb://127.0.0.1:27017/multivendor_ecommerce', {
+        serverSelectionTimeoutMS: 1200,
+      });
+      console.log(`[MongoDB] Connected to local MongoDB at ${conn.connection.host}`);
+      return conn;
+    } catch (err) {
+      // Local mongo not running, proceed to in-memory
+    }
+  }
+
+  // Self-contained In-Memory MongoDB (Zero external configuration or setup needed)
+  try {
+    console.log('[MongoDB] Starting self-contained In-Memory MongoDB (no external database needed)...');
+    mongoMemoryServer = await MongoMemoryServer.create();
+    const memoryUri = mongoMemoryServer.getUri();
+    const conn = await mongoose.connect(memoryUri);
+    console.log(`[MongoDB] Connected to In-Memory MongoDB Server successfully.`);
+    return conn;
+  } catch (memErr) {
+    console.warn('[MongoDB] In-Memory MongoDB notice:', memErr.message);
   }
 };
 

@@ -82,17 +82,21 @@ app.use('/api/seed', seedRoutes);
 // Error Handling Middleware
 app.use(errorHandler);
 
-// Start Server & Connect Services
+// Start Server & Connect Services (Zero external setup required)
 const startServer = async () => {
   try {
-    await connectDB();
-    await initElasticsearch();
+    await connectDB().catch((err) => console.warn('[Server] DB notice:', err.message));
+    await initElasticsearch().catch((err) => console.warn('[Server] ES notice:', err.message));
 
     // Auto-seed if products collection is empty
-    const productCount = await Product.countDocuments();
-    if (productCount === 0) {
-      console.log('[Server] Database is empty. Automatically populating initial seed catalog...');
-      await seedDatabase();
+    try {
+      const productCount = await Product.countDocuments();
+      if (productCount === 0) {
+        console.log('[Server] Database is empty. Automatically populating initial seed catalog...');
+        await seedDatabase();
+      }
+    } catch (seedErr) {
+      console.warn('[Server] Auto-seed check notice:', seedErr.message);
     }
 
     app.listen(PORT, '0.0.0.0', () => {
