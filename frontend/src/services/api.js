@@ -1,7 +1,17 @@
 import axios from 'axios';
 
+// Normalize API base URL: trims whitespace and guarantees /api suffix
+const rawApiUrl = (import.meta.env.VITE_API_URL || '/api').trim();
+let normalizedBaseURL = rawApiUrl;
+if (normalizedBaseURL.startsWith('http')) {
+  normalizedBaseURL = normalizedBaseURL.replace(/\/+$/, '');
+  if (!normalizedBaseURL.endsWith('/api')) {
+    normalizedBaseURL = `${normalizedBaseURL}/api`;
+  }
+}
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || '/api',
+  baseURL: normalizedBaseURL,
   headers: {
     'Content-Type': 'application/json'
   }
@@ -55,8 +65,7 @@ export const downloadOrderInvoicePDF = async (orderId, orderNumber) => {
     return true;
   } catch (err) {
     if (token) {
-      const apiBase = import.meta.env.VITE_API_URL || '/api';
-      window.open(`${apiBase}/orders/${orderId}/invoice?token=${encodeURIComponent(token)}`, '_blank');
+      window.open(`${normalizedBaseURL}/orders/${orderId}/invoice?token=${encodeURIComponent(token)}`, '_blank');
       return true;
     }
     throw err;

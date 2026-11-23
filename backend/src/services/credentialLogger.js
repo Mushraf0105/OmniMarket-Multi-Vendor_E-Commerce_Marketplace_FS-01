@@ -5,8 +5,36 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Root credentials directory: <project_root>/credentials
-const CREDENTIALS_DIR = path.resolve(__dirname, '../../../credentials');
+// Multi-candidate directory lookup for local and cloud container environments
+export const getCredentialsDir = () => {
+  const candidates = [
+    path.resolve(process.cwd(), 'credentials'),
+    path.resolve(__dirname, '../../credentials'),
+    path.resolve(__dirname, '../../../credentials'),
+    path.resolve(process.cwd(), '../credentials')
+  ];
+
+  for (const c of candidates) {
+    if (fs.existsSync(c)) {
+      return c;
+    }
+  }
+
+  // Fallback: try local first, then root
+  const localCand = path.resolve(process.cwd(), 'credentials');
+  try {
+    if (!fs.existsSync(localCand)) {
+      fs.mkdirSync(localCand, { recursive: true });
+    }
+    return localCand;
+  } catch (e) {
+    const rootCand = path.resolve(__dirname, '../../../credentials');
+    if (!fs.existsSync(rootCand)) {
+      fs.mkdirSync(rootCand, { recursive: true });
+    }
+    return rootCand;
+  }
+};
 
 /**
  * Automatically persists user credentials in root credentials/*.json
@@ -21,9 +49,7 @@ export const saveCredentialRecord = ({
   storeName
 }) => {
   try {
-    if (!fs.existsSync(CREDENTIALS_DIR)) {
-      fs.mkdirSync(CREDENTIALS_DIR, { recursive: true });
-    }
+    const credentialsDir = getCredentialsDir();
 
     let filename = 'Customer.json';
     if (role === 'vendor') {
@@ -32,7 +58,7 @@ export const saveCredentialRecord = ({
       filename = 'Admin.json';
     }
 
-    const filePath = path.join(CREDENTIALS_DIR, filename);
+    const filePath = path.join(credentialsDir, filename);
 
     let list = [];
     if (fs.existsSync(filePath)) {
@@ -66,7 +92,7 @@ export const saveCredentialRecord = ({
     }
 
     fs.writeFileSync(filePath, JSON.stringify(list, null, 2), 'utf8');
-    console.log(`[Credentials] Saved ${role} credential for ${email} in credentials/${filename}`);
+    console.log(`[Credentials] Saved ${role} credential for ${email} in ${filePath}`);
   } catch (err) {
     console.error('[Credentials] Failed to log credential record:', err.message);
   }
@@ -77,19 +103,36 @@ export const saveCredentialRecord = ({
  */
 export const getAllCredentialUsers = () => {
   const files = ['Customer.json', 'Vendor.json', 'Admin.json'];
+  const candidates = [
+    path.resolve(process.cwd(), 'credentials'),
+    path.resolve(__dirname, '../../credentials'),
+    path.resolve(__dirname, '../../../credentials'),
+    path.resolve(process.cwd(), '../credentials')
+  ];
+
+  const seenEmails = new Set();
   const allUsers = [];
 
-  for (const filename of files) {
-    const filePath = path.join(CREDENTIALS_DIR, filename);
-    if (fs.existsSync(filePath)) {
-      try {
-        const raw = fs.readFileSync(filePath, 'utf8');
-        const list = JSON.parse(raw);
-        if (Array.isArray(list)) {
-          allUsers.push(...list);
+  for (const dir of candidates) {
+    if (!fs.existsSync(dir)) continue;
+    for (const filename of files) {
+      const filePath = path.join(dir, filename);
+      if (fs.existsSync(filePath)) {
+        try {
+          const raw = fs.readFileSync(filePath, 'utf8');
+          const list = JSON.parse(raw);
+          if (Array.isArray(list)) {
+            for (const u of list) {
+              const em = u.email?.toLowerCase();
+              if (em && !seenEmails.has(em)) {
+                seenEmails.add(em);
+                allUsers.push(u);
+              }
+            }
+          }
+        } catch (e) {
+          // ignore parse error
         }
-      } catch (e) {
-        // ignore parse error
       }
     }
   }
