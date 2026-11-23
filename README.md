@@ -157,5 +157,5 @@ See [`TEST_REPORT.md`](./TEST_REPORT.md) for full benchmarks and coverage matrix
 ---
 
 ## 📄 License
-ISC License © 2026 OmniMarket Team. Full-Stack Assessment FS-01.
+ISC License © 2026 Nexvia Technologies Team. Full-Stack Assessment FS-01.
 

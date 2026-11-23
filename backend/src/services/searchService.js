@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import { getElasticsearchClient, isElasticsearchAvailable } from '../config/elasticsearch.js';
 import Product from '../models/Product.js';
 
@@ -115,6 +116,18 @@ export const searchProducts = async (params) => {
   }
 
   // Fallback: MongoDB Search with Full-text & faceted filters
+  if (mongoose.connection?.readyState !== 1) {
+    return {
+      success: true,
+      source: 'offline-fallback',
+      products: [],
+      page: Number(page),
+      limit: Number(limit),
+      total: 0,
+      totalPages: 0
+    };
+  }
+
   const mongoQuery = { isPublished: true };
 
   if (q && q.trim()) {

@@ -55,7 +55,8 @@ export const downloadOrderInvoicePDF = async (orderId, orderNumber) => {
     return true;
   } catch (err) {
     if (token) {
-      window.open(`/api/orders/${orderId}/invoice?token=${encodeURIComponent(token)}`, '_blank');
+      const apiBase = import.meta.env.VITE_API_URL || '/api';
+      window.open(`${apiBase}/orders/${orderId}/invoice?token=${encodeURIComponent(token)}`, '_blank');
       return true;
     }
     throw err;

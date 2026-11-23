@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import rateLimit from 'express-rate-limit';
+import mongoose from 'mongoose';
 
 import { connectDB } from './src/config/db.js';
 import { initElasticsearch } from './src/config/elasticsearch.js';
@@ -33,10 +34,10 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Enable CORS
+// Enable CORS (supports cross-origin for Vercel <-> Render deployment)
 app.use(
   cors({
-    origin: '*',
+    origin: true,
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS']
   })
@@ -82,37 +83,37 @@ app.use('/api/seed', seedRoutes);
 // Error Handling Middleware
 app.use(errorHandler);
 
-// Start Server & Connect Services (Zero external setup required)
-const startServer = async () => {
+// Start Server immediately so cloud platforms (Render, Railway) detect port binding in <100ms
+const server = app.listen(PORT, '0.0.0.0', () => {
+  console.log(`=======================================================`);
+  console.log(`🚀 OmniMarket Multi-Vendor API Server running on port ${PORT}`);
+  console.log(`📡 Health Check: http://localhost:${PORT}/api/health`);
+  console.log(`📦 Seed API: POST http://localhost:${PORT}/api/seed/run`);
+  console.log(`=======================================================`);
+});
+
+// Connect database and init services in background
+(async () => {
   try {
     await connectDB().catch((err) => console.warn('[Server] DB notice:', err.message));
     await initElasticsearch().catch((err) => console.warn('[Server] ES notice:', err.message));
 
     // Auto-seed if products collection is empty
-    try {
-      const productCount = await Product.countDocuments();
-      if (productCount === 0) {
-        console.log('[Server] Database is empty. Automatically populating initial seed catalog...');
-        await seedDatabase();
+    if (mongoose.connection?.readyState === 1) {
+      try {
+        const productCount = await Product.countDocuments();
+        if (productCount === 0) {
+          console.log('[Server] Database is empty. Automatically populating initial seed catalog...');
+          await seedDatabase();
+        }
+      } catch (seedErr) {
+        console.warn('[Server] Auto-seed check notice:', seedErr.message);
       }
-    } catch (seedErr) {
-      console.warn('[Server] Auto-seed check notice:', seedErr.message);
     }
-
-    app.listen(PORT, '0.0.0.0', () => {
-      console.log(`=======================================================`);
-      console.log(`🚀 OmniMarket Multi-Vendor API Server running on port ${PORT}`);
-      console.log(`📡 Health Check: http://localhost:${PORT}/api/health`);
-      console.log(`📦 Seed API: POST http://localhost:${PORT}/api/seed/run`);
-      console.log(`=======================================================`);
-    });
-  } catch (error) {
-    console.error('Failed to start server:', error);
-    process.exit(1);
+  } catch (initErr) {
+    console.warn('[Server] Initialization notice:', initErr.message);
   }
-};
-
-startServer();
+})();
 
 export default app;
 

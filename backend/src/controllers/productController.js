@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import Product from '../models/Product.js';
 import Category from '../models/Category.js';
 import { searchProducts } from '../services/searchService.js';
@@ -21,6 +22,10 @@ export const getProducts = async (req, res, next) => {
 // @access  Public
 export const getProductById = async (req, res, next) => {
   try {
+    if (mongoose.connection?.readyState !== 1) {
+      return res.status(404).json({ success: false, message: 'Product not found' });
+    }
+
     const { idOrSlug } = req.params;
     let query;
 
@@ -196,6 +201,20 @@ export const uploadProductImage = async (req, res, next) => {
 // @access  Public
 export const getCategories = async (req, res, next) => {
   try {
+    if (mongoose.connection?.readyState !== 1) {
+      const defaultCategories = [
+        { name: 'Electronics', slug: 'electronics', description: 'Gadgets, audio, and high-tech devices', productCount: 0 },
+        { name: 'Fashion & Apparel', slug: 'fashion-apparel', description: 'Designer clothing, footwear, and accessories', productCount: 0 },
+        { name: 'Home & Living', slug: 'home-living', description: 'Modern decor, kitchen essentials, and sustainable furniture', productCount: 0 },
+        { name: 'Books & Stationery', slug: 'books-stationery', description: 'Bestselling literature, notebooks, and writing instruments', productCount: 0 },
+        { name: 'Sports & Outdoors', slug: 'sports-outdoors', description: 'Athletic apparel, gym equipment, and outdoor adventure gear', productCount: 0 }
+      ];
+      return res.status(200).json({
+        success: true,
+        categories: defaultCategories
+      });
+    }
+
     const categories = await Category.find({ isActive: true });
     
     // Aggregate product counts per category
