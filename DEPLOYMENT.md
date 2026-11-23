@@ -40,18 +40,19 @@ This is the standard industry approach for deploying React + Node.js separately 
 
 ### Step 1: Push Project to GitHub
 
-1. Create a new GitHub repository (e.g. `omnimarket` or `fs-01-multivendor`).
-2. Run in terminal:
-   ```powershell
-   git remote add origin https://github.com/<your-username>/<your-repo-name>.git
-   git branch -M main
-   git push -u origin main
-   ```
+The repository is hosted at:
+```bash
+https://github.com/Mushraf0105/OmniMarket-Multi-Vendor_E-Commerce_Marketplace_FS-01.git
+```
+Both `main` and `master` branches are synchronized.
 
 ---
 
-### Step 2: Set Up Free MongoDB Atlas Database
+### Step 2: (Optional) Set Up MongoDB Atlas Database
 
+> **Zero External Dependency Mode:** You do **NOT** need an external database! The backend comes with a built-in self-contained in-memory database and root [`credentials/`](file:///e:/FS-01/credentials/) file-based user store. If you do not provide `MONGODB_URI`, the server starts automatically and logs users directly into `credentials/*.json`.
+
+If you prefer using external MongoDB Atlas:
 1. Sign up for a free account at [mongodb.com/atlas](https://www.mongodb.com/cloud/atlas).
 2. Create a free shared cluster (**M0 Free Sandbox**).
 3. Under **Database Access**, create a database user (e.g., `admin_user` with a strong password).

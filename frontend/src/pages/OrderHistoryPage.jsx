@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Package, Download, ArrowRight, Eye, Calendar, DollarSign } from 'lucide-react';
+import { Package, Download, ArrowRight } from 'lucide-react';
 import { toast } from 'react-toastify';
 import api, { downloadOrderInvoicePDF } from '../services/api';
 

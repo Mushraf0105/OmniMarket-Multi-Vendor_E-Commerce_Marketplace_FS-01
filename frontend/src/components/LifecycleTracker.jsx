@@ -1,5 +1,5 @@
 import React from 'react';
-import { CheckCircle2, Clock, Package, Truck, Home } from 'lucide-react';
+import { Clock, Package, Truck, Home } from 'lucide-react';
 
 const stages = [
   { key: 'placed', label: 'Order Placed', icon: Clock },

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Shield, Zap, RefreshCw, Database, Server, CreditCard } from 'lucide-react';
+import { Shield, Zap, RefreshCw, Database } from 'lucide-react';
 
 const Footer = () => {
   return (

@@ -48,8 +48,8 @@ An Amazon-style multi-vendor e-commerce marketplace where independent merchants 
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/multivendor-ecommerce.git
-cd multivendor-ecommerce
+git clone https://github.com/Mushraf0105/OmniMarket-Multi-Vendor_E-Commerce_Marketplace_FS-01.git
+cd OmniMarket-Multi-Vendor_E-Commerce_Marketplace_FS-01
 ```
 
 ### 3. Start the Backend API
@@ -89,6 +89,8 @@ The platform comes pre-seeded with rich demo accounts across all three marketpla
 | **Customer (Shopper)** | `customer@omnimarket.io` | `Password@123` | Browse catalog, Redis cart, multi-vendor split checkout, track orders, PDF invoices |
 
 > **Pro Tip:** The Login screen (`/login`) includes **1-Click Quick Demo Login** buttons for Customer, Vendor, and Admin for immediate assessment review!
+>
+> 📁 **Credentials Store (`credentials/`):** All new registrations are automatically stored in [`credentials/Customer.json`](./credentials/Customer.json) and [`credentials/Vendor.json`](./credentials/Vendor.json), allowing instant authentication without requiring any external database. All actions trigger real-time feedback with `react-toastify`.
 
 ---
 

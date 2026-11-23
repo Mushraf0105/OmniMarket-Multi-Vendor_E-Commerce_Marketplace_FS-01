@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Store, ShieldCheck, Mail, Phone, Package, ArrowLeft } from 'lucide-react';
+import { Store, ShieldCheck, Mail, Phone, ArrowLeft } from 'lucide-react';
 import api from '../services/api';
 import ProductCard from '../components/ProductCard';
 
