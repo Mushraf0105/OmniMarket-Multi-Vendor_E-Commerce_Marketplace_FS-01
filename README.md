@@ -37,6 +37,110 @@ An Amazon-style multi-vendor e-commerce marketplace where independent merchants 
 
 ---
 
+## 📂 Project Structure
+
+```text
+OmniMarket-Multi-Vendor_E-Commerce_Marketplace_FS-01/
+├── credentials/                 # File-based user store (Zero-DB immediate auth)
+│   ├── Admin.json               # Platform administrator credentials
+│   ├── Customer.json            # Registered shoppers & demo accounts
+│   └── Vendor.json              # Merchant vendor credentials & store configs
+├── backend/                     # Node.js Express REST API server
+│   ├── server.js                # Express entrypoint, middleware & dual route mounting
+│   ├── Dockerfile               # Production container image configuration
+│   ├── package.json             # Backend dependencies and scripts
+│   ├── credentials/             # Cloud-mirrored credentials fallback store
+│   ├── src/
+│   │   ├── config/              # Infrastructure drivers & auto-fallbacks
+│   │   │   ├── db.js            # MongoDB & In-Memory MongoDB Server manager
+│   │   │   ├── elasticsearch.js # Elasticsearch client with Mongo text fallback
+│   │   │   ├── payments.js      # Razorpay Route & Stripe split payment engine
+│   │   │   ├── redis.js         # Redis client with In-Memory KV fallback
+│   │   │   └── s3.js            # AWS S3 uploader with local disk storage
+│   │   ├── controllers/         # HTTP request handlers & business logic
+│   │   │   ├── analyticsController.js # Admin platform GMV & health telemetry
+│   │   │   ├── authController.js      # JWT authentication, register & login
+│   │   │   ├── cartController.js      # Redis cart operations & session handling
+│   │   │   ├── couponController.js    # Promotional discount codes & validation
+│   │   │   ├── orderController.js     # 4-stage order lifecycle & checkout
+│   │   │   ├── paymentController.js   # Split calculations & payment intents
+│   │   │   ├── productController.js   # Product catalog CRUD & categories
+│   │   │   ├── reviewController.js    # Verified customer review system
+│   │   │   └── vendorController.js    # Vendor onboarding & merchant dashboard
+│   │   ├── middleware/          # Security, auth, and error handling
+│   │   │   ├── auth.js          # Bearer JWT token protection & verification
+│   │   │   ├── errorHandler.js  # Global API error response handler
+│   │   │   ├── role.js          # Role-Based Access Control (RBAC: Admin/Vendor/Customer)
+│   │   │   └── upload.js        # Multer image upload parser
+│   │   ├── models/              # Mongoose data schemas & validation
+│   │   │   ├── Category.js      # Category taxonomy & active counts
+│   │   │   ├── Coupon.js        # Discount rates, limits & vendor scope
+│   │   │   ├── Order.js         # Order schema with split vendor items & status history
+│   │   │   ├── Product.js       # Product details, stock, pricing & Elasticsearch sync
+│   │   │   ├── Review.js        # Customer star ratings & feedback
+│   │   │   └── User.js          # User profiles, passwords, & merchant stores
+│   │   ├── routes/              # Express API route endpoints
+│   │   ├── scripts/             # Data population & utility scripts
+│   │   │   └── seed.js          # Full catalog & demo account database seeder
+│   │   └── services/            # Specialized domain services
+│   │       ├── cartService.js        # Cart session & caching logic
+│   │       ├── credentialLogger.js   # Multi-candidate file credential persistence
+│   │       ├── invoiceService.js     # Dynamic PDFKit tax invoice generation
+│   │       └── searchService.js      # Elasticsearch multi-match search logic
+│   └── tests/
+│       └── splitPayment.test.js # Unit test suite for 90/10 split settlements
+├── frontend/                    # React 18 SPA (Vite + Tailwind CSS)
+│   ├── index.html               # HTML entry point with metadata
+│   ├── vercel.json              # Vercel SPA client-side rewrite rules
+│   ├── vite.config.js           # Vite build config & backend proxy
+│   ├── tailwind.config.js       # Tailwind theme colors & styling extensions
+│   ├── package.json             # Frontend dependencies and build scripts
+│   ├── public/
+│   │   ├── favicon.svg          # Marketplace brand favicon
+│   │   └── _redirects           # Netlify SPA fallback routing
+│   └── src/
+│       ├── main.jsx             # React DOM root render
+│       ├── App.jsx              # Application router & layout wrapping
+│       ├── index.css            # Tailwind directives & global typography
+│       ├── components/          # Reusable UI component library
+│       │   ├── Footer.jsx           # Platform footer & tech highlights
+│       │   ├── LifecycleTracker.jsx # 4-stage order timeline visualization
+│       │   ├── Navbar.jsx           # Global search, category bar & auth controls
+│       │   ├── ProductCard.jsx      # Product listing card with rating stars & cart CTA
+│       │   └── RatingStars.jsx      # Dynamic star rating display
+│       ├── context/             # Global React state management
+│       │   ├── AuthContext.jsx      # User authentication, token & role state
+│       │   └── CartContext.jsx      # Cart items, discounts & coupon state
+│       ├── pages/               # Route views & user personas
+│       │   ├── AdminDashboardPage.jsx    # Admin GMV metrics & system health
+│       │   ├── CartPage.jsx              # Cart items, coupons & vendor breakdown
+│       │   ├── CheckoutPage.jsx          # Shipping form & split payment preview
+│       │   ├── HomePage.jsx              # Hero banner, categories & product grid
+│       │   ├── LoginPage.jsx             # 1-Click demo logins & authentication
+│       │   ├── OrderDetailPage.jsx       # Order tracking & PDF invoice download
+│       │   ├── OrderHistoryPage.jsx      # Customer order ledger
+│       │   ├── OrderSuccessPage.jsx      # Order confirmation & split summary
+│       │   ├── ProductDetailPage.jsx     # Product specifications & reviews
+│       │   ├── RegisterPage.jsx          # Customer & vendor account creation
+│       │   ├── SearchPage.jsx            # Fuzzy search, facet filters & sorting
+│       │   ├── VendorDashboardPage.jsx   # Merchant 90% payout & orders tracker
+│       │   ├── VendorOnboardingPage.jsx  # Vendor store profile creation
+│       │   ├── VendorProductsPage.jsx    # Vendor product management & inventory CRUD
+│       │   └── VendorStorePage.jsx       # Public vendor storefront view
+│       └── services/
+│           └── api.js               # Axios instance with baseURL auto-normalization
+├── docker-compose.yml           # Multi-container orchestration (MongoDB, Redis, ES)
+├── API_DOCUMENTATION.md         # Full REST API endpoint reference
+├── ARCHITECTURE.md              # System design diagrams, ERD schema & state machine
+├── DEPLOYMENT.md                # Deployment guide for Vercel, Render & Docker
+├── PRESENTATION.md              # 10-minute presentation slides
+├── REFLECTIONS.md               # Individual intern reflections & takeaways
+├── TEST_REPORT.md               # Automated testing benchmarks & coverage
+└── README.md                    # Project overview, quickstart & documentation
+```
+
+---
+
 ## 🚀 Quick Start Guide
 
 ### 1. Prerequisites
