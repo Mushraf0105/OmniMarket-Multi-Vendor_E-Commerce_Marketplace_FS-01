@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import {
-  ShieldCheck,
-  TrendingUp,
-  DollarSign,
   Users,
   Store,
   Layers,
   Activity,
   RotateCcw,
   Check,
-  Sparkles,
-  PieChart,
   ShoppingBag
 } from 'lucide-react';
 import api from '../services/api';

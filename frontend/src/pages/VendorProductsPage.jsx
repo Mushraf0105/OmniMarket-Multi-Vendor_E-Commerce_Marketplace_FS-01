@@ -5,12 +5,9 @@ import {
   Edit2,
   Trash2,
   Upload,
-  Image as ImageIcon,
   Check,
   AlertCircle,
-  X,
-  Store,
-  Layers
+  X
 } from 'lucide-react';
 import api from '../services/api';
 import { toast } from 'react-toastify';

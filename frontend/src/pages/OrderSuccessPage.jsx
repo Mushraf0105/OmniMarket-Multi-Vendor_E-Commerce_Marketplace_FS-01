@@ -2,10 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import {
   CheckCircle,
-  FileText,
   Package,
-  ArrowRight,
-  ShieldCheck,
   Building,
   Download
 } from 'lucide-react';

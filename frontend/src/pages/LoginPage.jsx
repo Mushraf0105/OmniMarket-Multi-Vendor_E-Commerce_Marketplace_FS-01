@@ -38,7 +38,7 @@ const LoginPage = () => {
     try {
       setLoading(true);
       setError('');
-      const data = await login(demoEmail, 'Password@123');
+      await login(demoEmail, 'Password@123');
       toast.success(`Logged in as Demo ${demoRole.toUpperCase()}!`);
       if (demoRole === 'admin') navigate('/admin/dashboard');
       else if (demoRole === 'vendor') navigate('/vendor/dashboard');

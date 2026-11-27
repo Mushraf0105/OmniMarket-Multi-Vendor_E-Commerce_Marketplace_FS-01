@@ -116,7 +116,7 @@ export const seedDatabase = async () => {
   });
 
   console.log('[Seed] Creating categories...');
-  const categories = await Category.create([
+  await Category.create([
     {
       name: 'Electronics',
       slug: 'electronics',

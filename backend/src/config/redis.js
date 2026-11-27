@@ -71,7 +71,7 @@ class InMemoryRedisFallback {
     return 'OK';
   }
 
-  on(event, handler) {
+  on() {
     // Mock event listener
     return this;
   }
@@ -106,7 +106,7 @@ const initRedis = () => {
 
     // Default to fallback until verified
     redisClient = new InMemoryRedisFallback();
-  } catch (error) {
+  } catch {
     console.warn(`[Redis] Error initializing Redis client. Using In-Memory fallback.`);
     redisClient = new InMemoryRedisFallback();
   }

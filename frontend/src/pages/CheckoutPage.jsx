@@ -5,7 +5,6 @@ import {
   CreditCard,
   ShieldCheck,
   Building,
-  CheckCircle,
   Truck,
   AlertCircle,
   ArrowRight,

@@ -4,11 +4,7 @@ import {
   Download,
   Building,
   Truck,
-  ArrowLeft,
-  Calendar,
-  CreditCard,
-  CheckCircle,
-  FileText
+  ArrowLeft
 } from 'lucide-react';
 import api, { downloadOrderInvoicePDF } from '../services/api';
 import { toast } from 'react-toastify';
